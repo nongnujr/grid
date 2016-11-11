@@ -1,8 +1,7 @@
 // Main app //
 (function(){
-	
 	this.addEventListener('resize', function(){
-		this.grid = createGrid(60,2)
+		this.grid = createGrid(60,4) 
 		two.update()
 		console.log(this.grid.length)
 	})
@@ -26,14 +25,19 @@
 				var circle = two.makeCircle(currentRow, currentCol, radius);
 				circle.linewidth = 0;
 				circle.fill = "#888";
+				circle.click = function(){console.log('click')}
 				grid.push(circle);
 			};
 		};
 		return grid;
 	}
-
+	
 	//console.log(grid)
-
+	this.grid = createGrid(60,4)
 	two.update()
+
+	/*two.bind('update', function(){
+		grid[0].scale += 0.005
+	}).play()*/
 
 })();
