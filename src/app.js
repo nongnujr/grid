@@ -29,18 +29,26 @@
 		return grid;
 	}
 
-	var grid = createGrid(150,10);
+	var grid = createGrid(50,20);
 
 	grid.addEvent = (function(){
-	for (var i = 0; i < this.length; i++) {
-		this[i].dom = document.querySelector('#' + this[i].id);
-		this[i].dom.addEventListener('click',onClick.bind(this[i]));
-	};
 
-	function onClick(){
-		this.scale += 1
-		two.update();
-	}
+		for (var i = 0; i < this.length; i++) {
+			this[i].dom = document.querySelector('#' + this[i].id);
+			this[i].dom.addEventListener('mousedown',onClick.bind(this[i]));
+		};
+
+		function onClick(){
+			requestAnimationFrame(onClick.bind(this));
+			console.log(this)
+			this.scale += 0.01
+			two.update();
+		}
+
+		function animate(obj){
+			requestAnimationFrame(animate)
+			console.log(obj) 
+		}
 
 	}).bind(grid)();
 
