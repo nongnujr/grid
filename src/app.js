@@ -29,25 +29,45 @@
 		return grid;
 	}
 
-	var grid = createGrid(50,20);
+	var grid = createGrid(30,20);
 
 	grid.addEvent = (function(){
 
 		for (var i = 0; i < this.length; i++) {
 			this[i].dom = document.querySelector('#' + this[i].id);
-			this[i].dom.addEventListener('mousedown',onClick.bind(this[i]));
+			this[i].dom.addEventListener('mouseover',animate.bind(this[i]));
+			this[i].dom.addEventListener('mouseout',animate.bind(this[i]));
 		};
 
+		var incSpeed = 0.05, decSpeed = 0.02;
+
+		function animate(){
+			if(this.animate == undefined || this.animate == false){
+				onClick.bind(this)();
+				this.animate = true;
+			} else {
+				cancelAnimationFrame(increase)
+				decrease.bind(this)();
+			}
+		}
+
 		function onClick(){
-			requestAnimationFrame(onClick.bind(this));
-			console.log(this)
-			this.scale += 0.01
+			increase = requestAnimationFrame(onClick.bind(this));
+			this.scale += incSpeed;
 			two.update();
 		}
 
-		function animate(obj){
-			requestAnimationFrame(animate)
-			console.log(obj) 
+		function decrease(){
+			minus = requestAnimationFrame(decrease.bind(this));
+			if(this.scale > 1){
+				this.scale -= decSpeed;	
+			} else {
+				this.animate = false;
+				cancelAnimationFrame(minus)
+				return;
+			}
+			//this.scale > 1 ? this.scale -= 0.01 : return;	
+			two.update();
 		}
 
 	}).bind(grid)();
