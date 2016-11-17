@@ -6,6 +6,33 @@
 		fullscreen : true
 	}).appendTo(elem);
 
+	var circle = new Two.Ellipse(this.innerWidth/2, this.innerHeight/2, 100, 100);
+		circle.linewidth = 0;
+		circle.fill = "#888";
+		circle.onClick = function(){
+			this.dom.addEventListener('click', circle.move.bind(this));
+		};
+		circle.move = function(){
+			var id = requestAnimationFrame(circle.move.bind(this))
+			var x = this.translation.x;
+			if(x >= 700){
+
+				//removeEventListener does not work
+				
+				this.dom.removeEventListener('click', circle.move.bind(this));
+				cancelAnimationFrame(id);
+			} else {
+				this.translation.x += 10;
+			} 
+			console.log(this.translation.x)
+			two.update();
+		}
+	two.scene.add(circle);
+	two.update();
+	circle.dom = document.querySelector('#' + circle.id);
+	circle.onClick();
+
+	//create grid
 	function createGrid(gap, radius){
 		var grid = [];
 		var gap = gap+radius
@@ -29,9 +56,9 @@
 		return grid;
 	}
 
-	var grid = createGrid(30,20);
+	var grid = {}//createGrid(30,20);
 
-	grid.addEvent = (function(){
+	grid.addEvent = function(){
 
 		for (var i = 0; i < this.length; i++) {
 			this[i].dom = document.querySelector('#' + this[i].id);
@@ -70,6 +97,6 @@
 			two.update();
 		}
 
-	}).bind(grid)();
+	};
 
 })();
