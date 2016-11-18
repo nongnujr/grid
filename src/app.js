@@ -8,6 +8,7 @@
 
 	function createGrid(gap, radius){
 		var grid = [];
+		var initGrid = [];
 		var gap = gap+radius
 		var maxRow = Math.round(this.innerWidth / gap);
 		var maxCol = Math.round(this.innerHeight / gap);
@@ -18,20 +19,32 @@
 			currentRow += gap;
 			for (var i = 0; i < maxCol; i++) {
 				currentCol += gap;
-				var circle = two.makeCircle(currentRow, currentCol, radius);
+				var circle = createObj(radius);
+				grid.push(circle);
+				initGrid.push({width : currentRow, height : currentCol});
+			};
+		};
+
+		function createObj(radius){
+			var width = this.innerWidth/2;
+			var height = this.innerHeight/2;
+			var circle = new Two.Ellipse(width, height, radius, radius);
 				circle.linewidth = 0;
 				circle.fill = "#888";
 				circle.dom = document.querySelector('#' + circle.id);
-				grid.push(circle);
-			};
+			return circle;
 		};
-		two.update();
+
+		function animate(){
+			tween = requestAnimationFrame(animate);			
+		}
+
 		return grid;
 	}
 
-	var grid = createGrid(30,20);
+	var grid = createGrid(300,10);
 
-	grid.addEvent = (function(){
+	grid.addEvent = function(){
 
 		for (var i = 0; i < this.length; i++) {
 			this[i].dom = document.querySelector('#' + this[i].id);
@@ -54,6 +67,7 @@
 		function onClick(){
 			increase = requestAnimationFrame(onClick.bind(this));
 			this.scale += incSpeed;
+			console.log(this.scale)
 			two.update();
 		}
 
@@ -66,10 +80,12 @@
 				cancelAnimationFrame(minus)
 				return;
 			}
-			//this.scale > 1 ? this.scale -= 0.01 : return;	
+			
 			two.update();
 		}
 
-	}).bind(grid)();
+	};
+
+	//grid.addEvent();
 
 })();
