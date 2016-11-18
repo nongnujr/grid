@@ -11,5 +11,8 @@
   "devDependencies": {
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
+  },
+  "dependencies": {
+    "underscore": "^1.8.3"
   }
 }
