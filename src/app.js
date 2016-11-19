@@ -15,11 +15,24 @@
 		obj.init = function(){
 			tween = requestAnimationFrame(obj.init.bind(this))
 			if(this.scale >= 1){
-				cancelAnimationFrame(tween);
+				if(this.translation.y >= 100){
+					console.log("move")
+					this.move(0, 100, -10);
+					two.update();
+				} else {
+					cancelAnimationFrame(tween);
+				}
 			} else {
 				this.scale += 0.1
 				two.update();
 			};
+		}
+
+		obj.move = function(x,y,speed){
+			this.translation.y != y ?
+				this.translation.y += speed :
+				this.translation.x = y;
+			two.update();
 		}
 
 		return obj;
@@ -32,7 +45,7 @@
 		this.count == void 0 ? this.count = 0 : this.count += 1;
 		if(this.count == 10){
 			this.objLength == void 0 ? this.objLength = 0 : this.objLength += 1;
-			if(this.objLength >= 3) return console.log("complete");
+			if(this.objLength >= 8) return console.log("complete");
 			this.x == void 0 ? this.x = 100 : this.x += 100 ;
 			
 			// Create Animate Object //
