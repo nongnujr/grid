@@ -10,27 +10,44 @@
 		var obj = new Two.Ellipse(param.x, param.y, param.radius, param.radius);
 		obj.linewidth = param.linewidth;
 		obj.fill = param.fill;
-		two.scene.add(obj);
-		two.update();
-
+		obj.scale = 0
 		// method
 		obj.init = function(){
-			console.log('init');
+			tween = requestAnimationFrame(obj.init.bind(this))
+			if(this.scale >= 1){
+				cancelAnimationFrame(tween);
+			} else {
+				this.scale += 0.1
+				two.update();
+			};
 		}
 
 		return obj;
 	}
 
-	var obj = new Circle({
-		x : window.innerWidth/2,
-		y : window.innerHeight/2,
-		radius : 100,
-		linewidth : 0,
-		fill : '#888'
-	})
+	animate()
 
-	obj.init();
-
+	function animate(){
+		var tween = requestAnimationFrame(animate);
+		this.count == void 0 ? this.count = 0 : this.count += 1;
+		if(this.count == 10){
+			this.objLength == void 0 ? this.objLength = 0 : this.objLength += 1;
+			if(this.objLength >= 3) return console.log("complete");
+			this.x == void 0 ? this.x = 100 : this.x += 100 ;
+			
+			// Create Animate Object //
+			var obj = new Circle({
+				x : this.x,
+				y : window.innerHeight/2,
+				radius : 30,
+				linewidth : 0,
+				fill : '#888'
+			})
+			two.scene.add(obj);
+			two.scene._collection[this.objLength].init();
+			this.count = 0
+		} 
+	}
 
 	//create grid
 	function createGrid(gap, radius){
