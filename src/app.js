@@ -1,4 +1,6 @@
 // Main app //
+var Square = require("./square");
+
 (function(){
 
 	var elem = document.getElementById('space');
@@ -6,17 +8,19 @@
 		fullscreen : true
 	}).appendTo(elem);
 
+	var mySquare = new Square(two);
+
 	var Circle = function(param){
 		var obj = new Two.Ellipse(param.x, param.y, param.radius, param.radius);
 		obj.linewidth = param.linewidth;
 		obj.fill = param.fill;
 		obj.scale = 0
+
 		// method
 		obj.init = function(){
 			tween = requestAnimationFrame(obj.init.bind(this))
 			if(this.scale >= 1){
 				if(this.translation.y >= 100){
-					console.log("move")
 					this.move(0, 100, -10);
 					two.update();
 				} else {
@@ -43,7 +47,7 @@
 	function animate(){
 		var tween = requestAnimationFrame(animate);
 		this.count == void 0 ? this.count = 0 : this.count += 1;
-		if(this.count == 10){
+		if(this.count == 20){
 			this.objLength == void 0 ? this.objLength = 0 : this.objLength += 1;
 			if(this.objLength >= 8) return console.log("complete");
 			this.x == void 0 ? this.x = 100 : this.x += 100 ;
