@@ -1,6 +1,7 @@
 // Main app //
-var Square = require("./square");
 var Circle = require("./Circle");
+var Mouse = require("./Mouse");
+var Arrow = require("./Arrow");
 
 (function(){
 
@@ -9,7 +10,10 @@ var Circle = require("./Circle");
 		fullscreen : true
 	}).appendTo(elem);
 
-	animate()
+	var arrow = new Arrow(two,this.x);
+	two.update();
+
+	//animate()
 
 	function animate(){
 		var tween = requestAnimationFrame(animate);
