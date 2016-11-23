@@ -11,7 +11,6 @@ var Arrow = require("./Arrow");
 	}).appendTo(elem);
 
 	var arrow = new Arrow(two,this.x);
-	two.update();
 
 	//animate()
 
