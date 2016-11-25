@@ -6,21 +6,37 @@ var Event = require('./animate/event');
 
 (function(){
 
+	// get element to render two //
 	var elem = document.getElementById('space');
+
+	// initiate screen //
 	var two = new Two({
 		fullscreen : true
 	}).appendTo(elem);
 
-	var circle = new Circle({
-		x: Math.random() * window.innerWidth/2,
-		y: Math.random() * window.innerHeight/2,
-		radius: 10
-	},two);
+	//add axes
+	var arrow = new Arrow(two);
+	var collection = []
 
+	// Add event to document //
+	document.addEventListener('click',function(){
+		var circle = new Circle({
+			x: Math.floor(Math.random() * window.innerWidth),
+			y: Math.floor(Math.random() * window.innerHeight),
+			radius: Math.floor(Math.random() * 20)+3
+		},two,Event);
+		collection.push(circle);
+	})
+
+	// Main timeline //
 	animate();
 	function animate(){
 		tween = requestAnimationFrame(animate);
-		circle.wave(0.001, 0.0001, 100, two);
+		for (var i = 0; i < collection.length; i++) {
+			collection[i].wave(0.01, 0.0001, 1000)
+		};
+		
+		two.update();
 	}
 	
 })();
