@@ -21,8 +21,8 @@ var Event = require('./animate/event');
 	// Add event to document //
 	document.addEventListener('click',function(){
 		var circle = new Circle({
-			x: Math.floor(Math.random() * window.innerWidth),
-			y: Math.floor(Math.random() * window.innerHeight),
+			x: event.clientX,
+			y: event.clientY,
 			radius: Math.floor(Math.random() * 20)+3
 		},two,Event);
 		collection.push(circle);

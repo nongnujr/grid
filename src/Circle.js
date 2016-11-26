@@ -17,7 +17,7 @@ var Circle = function(param,two,Event){
 		function init(){
 			tween = requestAnimationFrame(init.bind(obj));
 			if(this.scale !== undefined){
-				this.scale < 1 ? this.scale += 0.01 : cancelAnimationFrame(tween);
+				this.scale < 1 ? this.scale += 0.05 : cancelAnimationFrame(tween);
 			}
 		}
 
