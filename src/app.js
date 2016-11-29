@@ -3,6 +3,7 @@ var Circle = require("./Circle");
 var Mouse = require("./Mouse");
 var Arrow = require("./Arrow");
 var Event = require('./animate/event');
+var Line = require('./Line');
 
 (function(){
 
@@ -14,28 +15,25 @@ var Event = require('./animate/event');
 		fullscreen : true
 	}).appendTo(elem);
 
-	//add axes
-	var arrow = new Arrow(two);
-	var collection = []
+	//add circle
+	var circle = new Circle({
+		x : window.innerWidth/2,
+		y : window.innerHeight/2,
+		radius : 20
+	},two,Event)
+	var target = {
+		x : 100,
+		y : 100
+	}
 
-	// Add event to document //
-	document.addEventListener('click',function(){
-		var circle = new Circle({
-			x: event.clientX,
-			y: event.clientY,
-			radius: Math.floor(Math.random() * 20)+3
-		},two,Event);
-		collection.push(circle);
-	})
+	var pivotCenter = new Line(two);
+	
 
 	// Main timeline //
 	animate();
 	function animate(){
 		tween = requestAnimationFrame(animate);
-		for (var i = 0; i < collection.length; i++) {
-			collection[i].wave(0.01, 0.0001, 1000)
-		};
-		
+		circle.moveLeft(10, 45, target);
 		two.update();
 	}
 	
