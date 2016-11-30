@@ -21,19 +21,32 @@ var Line = require('./Line');
 		y : window.innerHeight/2,
 		radius : 20
 	},two,Event)
-	var target = {
+
+	var circle2 = new Circle({
 		x : 100,
+		y : 100,
+		radius : 20
+	},two,Event)
+
+	var circle3 = new Circle({
+		x : 800,
+		y : 100,
+		radius : 20
+	},two,Event)
+
+	var target = {
+		x : 800,
 		y : 100
 	}
 
+	// add center pivot //
 	var pivotCenter = new Line(two);
 	
-
 	// Main timeline //
 	animate();
 	function animate(){
 		tween = requestAnimationFrame(animate);
-		circle.moveLeft(10, 45, target);
+		circle.moveLeft(5, target);
 		two.update();
 	}
 	

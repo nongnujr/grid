@@ -37,33 +37,23 @@ var Event = {
 	},
 
 	moveLeft : function(speed,target){
-		
+
 		// set up Adjacent length and Oposite length //
 		if(this.distX == undefined){
-			this.distX = this.translation.x - target.x;
-			this.distY = this.translation.y - target.y; 
+			this.distX = target.x - this.translation.x;
+			this.distY = target.y - this.translation.y;
 		}
 
-		// set up hypotenuse //
-		var hypo = Math.sqrt(this.distX * this.distX + this.distY * this.distY);
-		var radianX = Math.acos(this.distX / hypo);
-		var radianY = Math.asin(this.distY / hypo);
-		
+		// set radian using atan2 //
+		var radian = Math.atan2(this.distY, this.distX); 
+
 		// set velocity //
-		var vx = Math.cos(radianX) * -10;
-		var vy = Math.sin(radianY) * -10;
+		var vx = Math.cos(radian) * speed;
+		var vy = Math.sin(radian) * speed;
 
-		// add velocity to direction //
-		if(this.translation.x >= target.x){
-			this.translation.x += vx;
-			this.translation.y += vy;
-		} else {
-			return
-			console.log("Done");
-		}
-
+		this.translation.x += vx;
+		this.translation.y += vy;
 	}
-
 }
 
 module.exports = Event;
