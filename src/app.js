@@ -22,17 +22,6 @@ var Line = require('./Line');
 		radius : 20
 	},two,Event)
 
-	var circle2 = new Circle({
-		x : 100,
-		y : 100,
-		radius : 20
-	},two,Event)
-
-	var circle3 = new Circle({
-		x : 800,
-		y : 100,
-		radius : 20
-	},two,Event)
 
 	var target = {
 		x : 800,
@@ -46,7 +35,8 @@ var Line = require('./Line');
 	animate();
 	function animate(){
 		tween = requestAnimationFrame(animate);
-		circle.moveLeft(5, target);
+		//circle.moveLeft(5, target);
+		circle.move(target);
 		two.update();
 	}
 	

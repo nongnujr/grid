@@ -1,13 +1,16 @@
 // Mouse event
+var TWEEN = require('tween.js');
 var Event = {
 	
 	swing : function(speed,range){
+
 		if(this.angleX == undefined){
 			this.angleX = 0;
 		} else {
 			this.angleX += speed;
 		}
 		this.translation.y = window.innerHeight/2 + Math.sin(this.angleX) * range;
+
 	},
 
 	wave : function(angleX,angleY,range){
@@ -38,11 +41,11 @@ var Event = {
 
 	moveLeft : function(speed,target){
 
-		// set up Adjacent length and Oposite length //
-		if(this.distX == undefined){
-			this.distX = target.x - this.translation.x;
-			this.distY = target.y - this.translation.y;
-		}
+		this.distX = target.x - this.translation.x;
+		this.distY = target.y - this.translation.y;
+		
+		var dist = 0; 
+		Math.sign(this.distX) !== 1 ? dist = this.distX * -1 : dist = this.distX; 
 
 		// set radian using atan2 //
 		var radian = Math.atan2(this.distY, this.distX); 
@@ -51,8 +54,24 @@ var Event = {
 		var vx = Math.cos(radian) * speed;
 		var vy = Math.sin(radian) * speed;
 
-		this.translation.x += vx;
-		this.translation.y += vy;
+		this.translation.x += Math.floor(vx);
+		this.translation.y += Math.floor(vy);
+
+	},
+
+	move : function(target){
+		
+		var tween = new TWEEN.Tween({
+			x: this.translation.x,
+			y: this.translation.y
+		}).to({
+			x: target.x,
+			y: target.y
+		}, 1000).onUpdate(function(){
+			console.log(this.x);
+		}).start();
+
+		TWEEN.update();
 	}
 }
 
