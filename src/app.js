@@ -4,6 +4,8 @@ var Mouse = require("./Mouse");
 var Arrow = require("./Arrow");
 var Event = require('./animate/event');
 var Line = require('./Line');
+var TWEEN = require('./testTween');
+var test = new TWEEN.Tween().start();
 
 (function(){
 
@@ -22,22 +24,21 @@ var Line = require('./Line');
 		radius : 20
 	},two,Event)
 
-
-	var target = {
-		x : 800,
-		y : 100
-	}
+	var circle2 = new Circle({
+		x : window.innerWidth/2,
+		y : window.innerHeight/2,
+		radius : 20
+	},two,Event)
 
 	// add center pivot //
 	var pivotCenter = new Line(two);
 	
 	// Main timeline //
-	animate();
+	//animate();
 	function animate(){
 		tween = requestAnimationFrame(animate);
-		//circle.moveLeft(5, target);
-		circle.move(target);
 		two.update();
+		TWEEN.update();
 	}
 	
 })();

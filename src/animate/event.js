@@ -60,18 +60,7 @@ var Event = {
 	},
 
 	move : function(target){
-		
-		var tween = new TWEEN.Tween({
-			x: this.translation.x,
-			y: this.translation.y
-		}).to({
-			x: target.x,
-			y: target.y
-		}, 1000).onUpdate(function(){
-			console.log(this.x);
-		}).start();
-
-		TWEEN.update();
+		return
 	}
 }
 
