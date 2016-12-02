@@ -5,7 +5,6 @@ var Arrow = require("./Arrow");
 var Event = require('./animate/event');
 var Line = require('./Line');
 var TWEEN = require('./testTween');
-var test = new TWEEN.Tween().start();
 
 (function(){
 
@@ -33,6 +32,11 @@ var test = new TWEEN.Tween().start();
 	// add center pivot //
 	var pivotCenter = new Line(two);
 	
+	var test = new TWEEN.Tween(circle).start();
+	var test2 = new TWEEN.Tween(circle).start();
+	var test3 = new TWEEN.Tween(circle).start();
+	console.log(TWEEN);
+
 	// Main timeline //
 	//animate();
 	function animate(){
@@ -42,3 +46,4 @@ var test = new TWEEN.Tween().start();
 	}
 	
 })();
+

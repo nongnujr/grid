@@ -8,9 +8,10 @@ var TWEEN = TWEEN || (function(){
 })();
 
 TWEEN.Tween = function(object){
-
+	var _object = object;
 	this.start = function(){
 		TWEEN.add(this);
+		return this;
 	}
 
 }
