@@ -1,17 +1,16 @@
-
 var TWEEN = TWEEN || (function(){
+
 	var _tween = [];
 
 	return {
 		add : function(tween){
 			_tween.push(tween)
-
 		},
 		update : function(time){
 			if(_tween === 0) return false;
 			time = time !== undefined ? time : TWEEN.now();
 			
-			var i = 0
+			var i = 0;
 
 			while(i<_tween.length){
 				if(_tween[i].update(time)){
@@ -31,7 +30,6 @@ var TWEEN = TWEEN || (function(){
 })();
 
 TWEEN.Tween = function(object){
-
 	var _object = object;
 	var _valueStart = {};
 	var _valueEnd = {};

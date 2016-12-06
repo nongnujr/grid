@@ -59,13 +59,9 @@ var Event = {
 
 	},
 
-	move : function(target){
-		console.log("move");
-		return
-	},
-
 	duplicate : function(obj, two, Event, count){
-		var row = 30;
+
+		var row = count+1;
 		var gap = innerWidth / row;
 		var column = innerHeight / gap;
 		var arr = [];
@@ -74,11 +70,16 @@ var Event = {
 		
 			for (var i = 0; i < (row - 1); i++) {
 
-					var circle = new Circle({
+					var circle = new obj({
 						x : Math.random() * window.innerWidth,
 						y : Math.random() * window.innerHeight,
 						radius : 5
 					},two,Event)
+
+					circle.grid = {
+						x: gap*(i+1),
+						y: gap*(j+1)
+					}
 
 					arr.push(circle)
 
@@ -87,6 +88,24 @@ var Event = {
 
 		return arr;
 		
+	},
+
+	grid : function(collection,TWEEN){	
+		for (var i = 0; i < collection.length; i++) {
+			this.move(collection[i], collection[i].grid, TWEEN); 
+		};
+	},
+
+	move : function(obj,target, TWEEN){
+		console.log(TWEEN.Tween);
+		var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
+		.to(target,1000)
+		.onUpdate(function(){
+			 obj.translation.x = this.x;
+			 obj.translation.y = this.y;
+		})
+		.start(undefined, 800);
+
 	}
 
 }

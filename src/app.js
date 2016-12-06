@@ -18,16 +18,13 @@ var RoundEffect = require('./RoundEffect');
 		fullscreen : true
 	}).appendTo(elem);
 
-	// execute grid system //
-	//Grid(two,Event,Circle,TWEEN);
-
-
-
 	// duplicate the circle round system //
-	var collection = Event.duplicate(Circle, two, Event, 10); 
+	var collection = Event.duplicate(Circle, two, Event, 20); 
+
+	//Create Grid
+	Event.grid(collection,TWEEN);
+
 	
-	// Execute Round Effect
-	var round = new RoundEffect(collection);
 
 	// add center pivot //
 	var pivotCenter = new Line(two);

@@ -3,7 +3,7 @@ var RoundEffect = function(collection){
 	var circumference = 2 * Math.PI * radius;
 	var gap = circumference / collection.length;
 	for (var i = 0; i < collection.length; i++) {
-		collection.translation.x = window.innerWidth + Math.cos()
+		collection[i].translation.x = window.innerWidth + Math.cos()
 	};
 }
 

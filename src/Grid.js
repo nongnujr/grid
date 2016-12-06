@@ -1,43 +1,30 @@
 // initialise grid system //
 
-var Grid = function(two,Event,Circle,TWEEN){
+var Grid = function(collection){
 
-	// config //
-	var row = 30;
-	var gap = innerWidth / row;
-	var column = innerHeight / gap;
-	var arr = [];
+	console.log(this)
 
-	for (var j = 0; j < (column - 1); j++) {
-		
-		for (var i = 0; i < (row - 1); i++) {
+	//ar gap = collection.gap;
+	/*var collection = collection.arr;
 
-			var circle = new Circle({
-				x : Math.random() * window.innerWidth,
-				y : Math.random() * window.innerHeight,
-				radius : 5
-			},two,Event)
+	for (var i = 0; i < collection.length; i++) {
 
-			var move = function(obj,target){
-				var test =new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
-				.to(target,1000)
-				.onUpdate(function(){
-					 obj.translation.x = this.x;
-					 obj.translation.y = this.y;
-				})
-				.start(undefined);
-			}
+		var move = function(obj,target){
+		var test =new TWEEN.Tween({x:obj.translation.xs, y:obj.translation.y})
+		.to(target,1000)
+		.onUpdate(function(){
+			obj.translation.x = this.x;
+			obj.translation.y = this.y;
+		})
+		.start(undefined);
+		}
 
-			arr.push(circle)
+		move(collection[i],{
+			x: gap*(i+1),
+			y: gap*(j+1)
+		})	
+	};*/
 
-			move(circle,{
-				x: gap*(i+1),
-				y: gap*(j+1)
-			})
-
-		};
-	};
-	console.log(arr.length);
 	return true
 
 }
