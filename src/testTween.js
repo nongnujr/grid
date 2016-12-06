@@ -1,5 +1,6 @@
-var TWEEN = TWEEN || (function(){
+var TWEEN = (function(){
 	var _tweens = [];
+	console.log("constructor");
 	return {
 		add : function(tween){
 			_tweens.push(tween)
