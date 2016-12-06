@@ -96,17 +96,29 @@ var Event = {
 		};
 	},
 
-	move : function(obj,target, TWEEN){
-		console.log(TWEEN.Tween);
+	move : function(obj, target, TWEEN){
 		var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
-		.to(target,1000)
+		.to(target,2000)
 		.onUpdate(function(){
 			 obj.translation.x = this.x;
 			 obj.translation.y = this.y;
 		})
-		.start(undefined, 800);
+		.delay(1000)
+		.easing(TWEEN.Easing.Elastic.Out)
+		.start(undefined);
 
-	}
+	},
+
+	round : function(obj, radius, TWEEN){
+		
+		var angle = (2 * Math.PI) / obj.length;
+	
+		for (var i = 0; i < obj.length; i++) {
+			obj[i].grid.x = window.innerWidth/2 + Math.sin(angle * i) * radius;
+			obj[i].grid.y = window.innerHeight/2 + Math.cos(angle * i) * radius;	
+			this.move(obj[i], obj[i].grid, TWEEN);
+		};
+	} 
 
 }
 

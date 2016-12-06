@@ -4,7 +4,7 @@ var Mouse = require("./Mouse");
 var Arrow = require("./Arrow");
 var Event = require('./animate/event');
 var Line = require('./Line');
-var TWEEN = require('./testTween');
+var TWEEN = require('tween.js');
 var Grid = require('./Grid');
 var RoundEffect = require('./RoundEffect');
 
@@ -19,12 +19,13 @@ var RoundEffect = require('./RoundEffect');
 	}).appendTo(elem);
 
 	// duplicate the circle round system //
-	var collection = Event.duplicate(Circle, two, Event, 20); 
+	var collection = Event.duplicate(Circle, two, Event, 10); 
 
-	//Create Grid
-	Event.grid(collection,TWEEN);
+	//Round the object//
+	Event.round(collection, 250, TWEEN);
 
-	
+	//Create Grid//
+	//Event.grid(collection,TWEEN);
 
 	// add center pivot //
 	var pivotCenter = new Line(two);
