@@ -1,5 +1,5 @@
 // Mouse event
-var TWEEN = require('tween.js');
+//var TWEEN = require('tween.js');
 var Event = {
 	
 	swing : function(speed,range){
@@ -60,8 +60,35 @@ var Event = {
 	},
 
 	move : function(target){
+		console.log("move");
 		return
+	},
+
+	duplicate : function(obj, two, Event, count){
+		var row = 30;
+		var gap = innerWidth / row;
+		var column = innerHeight / gap;
+		var arr = [];
+
+		for (var j = 0; j < (column - 1); j++) {
+		
+			for (var i = 0; i < (row - 1); i++) {
+
+					var circle = new Circle({
+						x : Math.random() * window.innerWidth,
+						y : Math.random() * window.innerHeight,
+						radius : 5
+					},two,Event)
+
+					arr.push(circle)
+
+			};
+		};
+
+		return arr;
+		
 	}
+
 }
 
 module.exports = Event;
