@@ -64,7 +64,7 @@ var Event = {
 		return
 	},
 
-	duplicate : function(obj, two, Event, count){
+	duplicate : function(Circle, two, Event, count){
 		var row = 30;
 		var gap = innerWidth / row;
 		var column = innerHeight / gap;

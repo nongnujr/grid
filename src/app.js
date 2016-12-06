@@ -27,7 +27,7 @@ var RoundEffect = require('./RoundEffect');
 	var collection = Event.duplicate(Circle, two, Event, 10); 
 	
 	// Execute Round Effect
-	var round = new RoundEffect(collection);
+	//var round = new RoundEffect(collection);
 
 	// add center pivot //
 	var pivotCenter = new Line(two);
