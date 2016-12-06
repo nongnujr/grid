@@ -103,7 +103,6 @@ var Event = {
 			 obj.translation.x = this.x;
 			 obj.translation.y = this.y;
 		})
-		.delay(1000)
 		.easing(TWEEN.Easing.Elastic.Out)
 		.start(undefined);
 
@@ -118,6 +117,7 @@ var Event = {
 			obj[i].grid.y = window.innerHeight/2 + Math.cos(angle * i) * radius;	
 			this.move(obj[i], obj[i].grid, TWEEN);
 		};
+
 	} 
 
 }
