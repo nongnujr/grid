@@ -73,7 +73,7 @@ var Event = {
 					var circle = new obj({
 						x : Math.random() * window.innerWidth,
 						y : Math.random() * window.innerHeight,
-						radius : 5
+						radius : Math.random() * 10
 					},two,Event)
 
 					circle.grid = {
@@ -90,13 +90,51 @@ var Event = {
 		
 	},
 
-	grid : function(collection,TWEEN){	
-		for (var i = 0; i < collection.length; i++) {
-			this.move(collection[i], collection[i].grid, TWEEN); 
+	animate : function(obj,TWEEN){
+		for (var i = 0; i < obj.length; i++) {
+			this.move(obj[i], TWEEN);
 		};
 	},
 
-	move : function(obj, target, TWEEN){
+	move : function(obj, TWEEN){
+
+		// Check if the random is finished //
+		var target = this.defineTarget(obj)
+
+		// assign tween to obj //
+		var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
+		.to(target , 1000)
+		.onUpdate(function(){
+			 obj.translation.x = this.x;
+			 obj.translation.y = this.y;
+		})
+		.onComplete(function(){
+			if(obj.random === true) {
+				obj.random = void 0
+				return true;
+			}
+			obj.random = true;
+			Event.move(obj, TWEEN);
+
+		})
+		.easing(TWEEN.Easing.Quintic.Out)
+		.start(undefined);
+
+	},
+
+	round : function(obj, radius, TWEEN){
+		var angle = (2 * Math.PI) / obj.length;
+		for (var i = 0; i < obj.length; i++) { 
+			obj[i].round = {};
+			obj[i].round.x = window.innerWidth/2 + Math.sin(angle * i) * radius;
+			obj[i].round.y = window.innerHeight/2 + Math.cos(angle * i) * radius;	
+			this.move(obj[i], obj[i].round, TWEEN);
+		};
+
+	},
+
+	random : function(obj, target, TWEEN){
+		//console.log(obj);
 		var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
 		.to(target,2000)
 		.onUpdate(function(){
@@ -104,21 +142,24 @@ var Event = {
 			 obj.translation.y = this.y;
 		})
 		.easing(TWEEN.Easing.Elastic.Out)
-		.start(undefined);
-
+		.start();
 	},
 
-	round : function(obj, radius, TWEEN){
-		
-		var angle = (2 * Math.PI) / obj.length;
-	
-		for (var i = 0; i < obj.length; i++) {
-			obj[i].grid.x = window.innerWidth/2 + Math.sin(angle * i) * radius;
-			obj[i].grid.y = window.innerHeight/2 + Math.cos(angle * i) * radius;	
-			this.move(obj[i], obj[i].grid, TWEEN);
-		};
+	defineTarget : function(obj){
 
-	} 
+		var target = {}
+		if(obj.random === void 0){
+			target = {
+				x: Math.random() * window.innerWidth,
+				y: Math.random() * window.innerHeight
+			}
+		} else {
+			target = obj.grid;
+		}
+
+		return target;
+
+	}
 
 }
 

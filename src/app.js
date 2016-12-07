@@ -9,6 +9,10 @@ var RoundEffect = require('./RoundEffect');
 
 (function(){
 
+	// Set initial value //
+	this.count = 0;
+	this.animate = 0;
+
 	// get element to render two //
 	var elem = document.getElementById('space');
 
@@ -21,13 +25,10 @@ var RoundEffect = require('./RoundEffect');
 	var collection = Event.duplicate(Circle, two, Event, 10); 
 
 	//Create Grid//
-	//Event.grid(collection,TWEEN);
+	Event.animate(collection, TWEEN);
 
 	// add center pivot //
 	var pivotCenter = new Line(two);
-
-	this.count = 0;
-	this.animate = 0;
 
 	// Main timeline //
 	animate();
@@ -38,20 +39,22 @@ var RoundEffect = require('./RoundEffect');
 		TWEEN.update();
 		this.count++
 
-		if(this.count === 180){
+		if(this.count === 360){
 
 			//Round the object//
-			if(this.animate === 0){
-				Event.round(collection, 250, TWEEN);
+			/*if(this.animate === 0){
+				Event.animate(collection, 250, TWEEN);
 				this.animate = 1;
 			} else if (this.animate === 1) {
-				Event.grid(collection, TWEEN);
+				Event.animate(collection, TWEEN);
 				this.animate = 0;
-			}
-	
-			console.log("fire");
+			}*/
+
+			Event.animate(collection, TWEEN);
+			console.log("Fire")
+
 			this.count = 0;
-			
+
 		};
 	}
 	
