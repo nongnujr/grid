@@ -2,9 +2,10 @@
 var Circle = require("./Circle");
 var Mouse = require("./Mouse");
 var Arrow = require("./Arrow");
-var Event = require('./animate/event');
 var Line = require('./Line');
+var Text = require('./Text');
 var TWEEN = require('tween.js');
+var Event = require('./animate/event');
 var RoundEffect = require('./RoundEffect');
 
 (function(){
@@ -22,16 +23,31 @@ var RoundEffect = require('./RoundEffect');
 	}).appendTo(elem);
 
 	// duplicate the circle round system //
-	var collection = Event.duplicate(Circle, two, Event, 10); 
+	var collection = Event.duplicate(Circle, two, Event, 10);
 
 	//Create Grid//
 	Event.animate(collection, TWEEN);
 
+	//Create Text//
+	var text = Text.Create(two);
+	//position of vertices in each charector
+	console.log(text.vertices[0]);
+
+	//console.log(text.children[0].children[0].vertices[0].x)
+
 	// add center pivot //
-	var pivotCenter = new Line(two);
+	var pivotCenter = new Line(two); 
 
 	// Main timeline //
-	animate();
+	two.bind("update", function(){
+
+		TWEEN.update();
+		this.count = this.count === undefined ? 0 : this.count; 
+		this.count++
+
+	}).play();
+
+	//animate();
 	function animate(){
 
 		tween = requestAnimationFrame(animate);
@@ -51,7 +67,6 @@ var RoundEffect = require('./RoundEffect');
 			}*/
 
 			Event.animate(collection, TWEEN);
-			console.log("Fire")
 
 			this.count = 0;
 

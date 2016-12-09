@@ -134,6 +134,7 @@ var Event = {
 	},
 
 	random : function(obj, target, TWEEN){
+
 		//console.log(obj);
 		var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
 		.to(target,2000)
@@ -143,6 +144,7 @@ var Event = {
 		})
 		.easing(TWEEN.Easing.Elastic.Out)
 		.start();
+		
 	},
 
 	defineTarget : function(obj){
