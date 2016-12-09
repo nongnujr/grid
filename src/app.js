@@ -22,18 +22,15 @@ var RoundEffect = require('./RoundEffect');
 		fullscreen : true
 	}).appendTo(elem);
 
-	// duplicate the circle round system //
-	var collection = Event.duplicate(Circle, two, Event, 10);
-
-	//Create Grid//
-	Event.animate(collection, TWEEN);
-
 	//Create Text//
 	var text = Text.Create(two);
-	//position of vertices in each charector
-	console.log(text.vertices[0]);
 
-	//console.log(text.children[0].children[0].vertices[0].x)
+	// duplicate the circle round system //
+	var collection = Event.duplicate(Circle, two, Event, text.vertices.length);
+
+	//Create Grid//
+	//Event.animate(collection, TWEEN, text.vertices);
+	console.log(two.group);
 
 	// add center pivot //
 	var pivotCenter = new Line(two); 
@@ -44,6 +41,13 @@ var RoundEffect = require('./RoundEffect');
 		TWEEN.update();
 		this.count = this.count === undefined ? 0 : this.count; 
 		this.count++
+
+		if(this.count === 360){
+
+			Event.animate(collection, TWEEN, text.vertices);
+			this.count = 0;
+
+		};
 
 	}).play();
 

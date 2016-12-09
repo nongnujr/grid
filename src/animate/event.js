@@ -59,7 +59,7 @@ var Event = {
 
 	},
 
-	duplicate : function(obj, two, Event, count){
+	duplicateGrid : function(obj, two, Event, count){
 
 		var row = count+1;
 		var gap = innerWidth / row;
@@ -76,11 +76,6 @@ var Event = {
 						radius : Math.random() * 10
 					},two,Event)
 
-					circle.grid = {
-						x: gap*(i+1),
-						y: gap*(j+1)
-					}
-
 					arr.push(circle)
 
 			};
@@ -90,8 +85,29 @@ var Event = {
 		
 	},
 
-	animate : function(obj,TWEEN){
+	duplicate : function(obj, two, Event, count){
+
+		var arr = [];
+		
+			for (var i = 0; i < count-1; i++) {
+
+					var circle = new obj({
+						x : Math.random() * window.innerWidth,
+						y : Math.random() * window.innerHeight,
+						radius : 10
+					},two,Event)
+
+					arr.push(circle)
+
+			};
+
+		return arr;
+		
+	},
+
+	animate : function(obj, TWEEN, target){
 		for (var i = 0; i < obj.length; i++) {
+			obj[i].target = target[i]
 			this.move(obj[i], TWEEN);
 		};
 	},
@@ -156,7 +172,7 @@ var Event = {
 				y: Math.random() * window.innerHeight
 			}
 		} else {
-			target = obj.grid;
+			target = obj.target;
 		}
 
 		return target;
