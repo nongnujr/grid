@@ -59,7 +59,7 @@ var Event = {
 
 	},
 
-	duplicate : function(obj, two, Event, count){
+	duplicateGrid : function(obj, two, Event, count){
 
 		var row = count+1;
 		var gap = innerWidth / row;
@@ -73,13 +73,8 @@ var Event = {
 					var circle = new obj({
 						x : Math.random() * window.innerWidth,
 						y : Math.random() * window.innerHeight,
-						radius : 5
+						radius : Math.random() * 10
 					},two,Event)
-
-					circle.grid = {
-						x: gap*(i+1),
-						y: gap*(j+1)
-					}
 
 					arr.push(circle)
 
@@ -90,26 +85,60 @@ var Event = {
 		
 	},
 
-	grid : function(collection,TWEEN){	
-		for (var i = 0; i < collection.length; i++) {
-			this.move(collection[i], collection[i].grid, TWEEN); 
+	duplicate : function(obj, two, Event, count){
+
+		var arr = [];
+		
+			for (var i = 0; i < count-1; i++) {
+
+					var circle = new obj({
+						x : Math.random() * window.innerWidth,
+						y : Math.random() * window.innerHeight,
+						radius : 10
+					},two,Event)
+
+					arr.push(circle)
+
+			};
+
+		return arr;
+		
+	},
+
+	animate : function(obj, TWEEN, target){
+		for (var i = 0; i < obj.length; i++) {
+			obj[i].target = target[i]
+			this.move(obj[i], TWEEN);
 		};
 	},
 
-	move : function(obj, target, TWEEN){
+	move : function(obj, TWEEN){
+
+		// Check if the random is finished //
+		var target = this.defineTarget(obj)
+
+		// assign tween to obj //
 		var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
-		.to(target,2000)
+		.to(target , 1000)
 		.onUpdate(function(){
 			 obj.translation.x = this.x;
 			 obj.translation.y = this.y;
 		})
-		.easing(TWEEN.Easing.Elastic.Out)
+		.onComplete(function(){
+			if(obj.random === true) {
+				obj.random = void 0
+				return true;
+			}
+			obj.random = true;
+			Event.move(obj, TWEEN);
+
+		})
+		.easing(TWEEN.Easing.Quintic.Out)
 		.start(undefined);
 
 	},
 
 	round : function(obj, radius, TWEEN){
-		
 		var angle = (2 * Math.PI) / obj.length;
 	
 		for (var i = 0; i < obj.length; i++) {
@@ -119,7 +148,37 @@ var Event = {
 			this.move(obj[i], obj[i].round, TWEEN);
 		};
 
-	} 
+	},
+
+	random : function(obj, target, TWEEN){
+
+		//console.log(obj);
+		var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
+		.to(target,2000)
+		.onUpdate(function(){
+			 obj.translation.x = this.x;
+			 obj.translation.y = this.y;
+		})
+		.easing(TWEEN.Easing.Elastic.Out)
+		.start();
+		
+	},
+
+	defineTarget : function(obj){
+
+		var target = {}
+		if(obj.random === void 0){
+			target = {
+				x: Math.random() * window.innerWidth,
+				y: Math.random() * window.innerHeight
+			}
+		} else {
+			target = obj.target;
+		}
+
+		return target;
+
+	}
 
 }
 
