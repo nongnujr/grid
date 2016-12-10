@@ -113,9 +113,10 @@ var Event = {
 		var angle = (2 * Math.PI) / obj.length;
 	
 		for (var i = 0; i < obj.length; i++) {
-			obj[i].grid.x = window.innerWidth/2 + Math.sin(angle * i) * radius;
-			obj[i].grid.y = window.innerHeight/2 + Math.cos(angle * i) * radius;	
-			this.move(obj[i], obj[i].grid, TWEEN);
+			obj[i].round = {};
+			obj[i].round.x = window.innerWidth/2 + Math.sin(angle * i) * radius;
+			obj[i].round.y = window.innerHeight/2 + Math.cos(angle * i) * radius;	
+			this.move(obj[i], obj[i].round, TWEEN);
 		};
 
 	} 
