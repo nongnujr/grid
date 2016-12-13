@@ -94,7 +94,7 @@ var Event = {
 					var circle = new obj({
 						x : Math.random() * window.innerWidth,
 						y : Math.random() * window.innerHeight,
-						radius : 10
+						radius : 2
 					},two,Event)
 
 					arr.push(circle)
