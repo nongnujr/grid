@@ -26,13 +26,18 @@ var RoundEffect = require('./RoundEffect');
 	var text = Text.Create(two);
 
 	// duplicate the circle round system //
-	var collection = Event.duplicate(Circle, two, Event, text.vertices.length);
+	var collection = Event.duplicate(Circle, two, Event, text.vertices.length + 1);
 
-	//Create Grid//
-	//Event.animate(collection, TWEEN, text.vertices);
+	// initial animation
+	Event.animate(collection, TWEEN, text.vertices);
 
 	// add center pivot //
-	var pivotCenter = new Line(two); 
+	var pivotCenter = new Line(two);
+
+	//add event listener
+	this.addEventListener('click', function(){
+		Event.animate(collection, TWEEN, text.vertices);
+	})
 
 	// Main timeline //
 	two.bind("update", function(){
@@ -41,13 +46,13 @@ var RoundEffect = require('./RoundEffect');
 		this.count = this.count === undefined ? 0 : this.count; 
 		this.count++
 
-		if(this.count === 360){
+		/*if(this.count === 360){
 
 			Event.animate(collection, TWEEN, text.vertices);
 			this.count = 0;
 
 		};
-
+*/
 	}).play();
 
 	//animate();

@@ -16,7 +16,7 @@ var Circle = function(param,two,Event){
 		two.update();
 
 		// initiate the obj
-		init(); 
+		init();
 		function init(){
 			tween = requestAnimationFrame(init.bind(obj));
 			if(this.scale !== undefined){
