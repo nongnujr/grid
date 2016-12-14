@@ -28,31 +28,22 @@ var RoundEffect = require('./RoundEffect');
 	// duplicate the circle round system //
 	var collection = Event.duplicate(Circle, two, Event, text.vertices.length + 1);
 
-	// initial animation
+	// initiate animation //
 	Event.animate(collection, TWEEN, text.vertices);
 
 	// add center pivot //
 	var pivotCenter = new Line(two);
 
-	//add event listener
-	this.addEventListener('click', function(){
-		Event.animate(collection, TWEEN, text.vertices);
-	})
-
 	// Main timeline //
 	two.bind("update", function(){
 
 		TWEEN.update();
-		this.count = this.count === undefined ? 0 : this.count; 
-		this.count++
+		this.count = this.count === undefined ? 0 : this.count;
+		this.count++;
 
-		/*if(this.count === 360){
+		// Check if initial animation is completed //
+		if(collection[collection.length - 1].random === false) Event.loop(collection);
 
-			Event.animate(collection, TWEEN, text.vertices);
-			this.count = 0;
-
-		};
-*/
 	}).play();
 
 	//animate();
