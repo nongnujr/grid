@@ -30,29 +30,18 @@ var RoundEffect = require('./RoundEffect');
 
 	// initial animation
 	Event.animate(collection, TWEEN, text.vertices);
+	Event.round(collection,5,TWEEN);
 
 	// add center pivot //
 	var pivotCenter = new Line(two);
-
-	//add event listener
-	this.addEventListener('click', function(){
-		Event.animate(collection, TWEEN, text.vertices);
-	})
 
 	// Main timeline //
 	two.bind("update", function(){
 
 		TWEEN.update();
 		this.count = this.count === undefined ? 0 : this.count; 
-		this.count++
+		this.count++;
 
-		/*if(this.count === 360){
-
-			Event.animate(collection, TWEEN, text.vertices);
-			this.count = 0;
-
-		};
-*/
 	}).play();
 
 	//animate();

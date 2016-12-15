@@ -96,13 +96,23 @@ var Event = {
 						y : Math.random() * window.innerHeight,
 						radius : 2
 					},two,Event)
-
+					this.addEvent(circle)
 					arr.push(circle)
 
 			};
 
 		return arr;
 		
+	},
+
+	addEvent : function(obj){
+		var elem = document.getElementById(obj.id)
+		elem.addEventListener('mouseover', function(){
+			obj.scale = 10;
+		})
+		elem.addEventListener('mouseout', function(){
+			obj.scale = 1;
+		})
 	},
 
 	animate : function(obj, TWEEN, target){
@@ -116,6 +126,7 @@ var Event = {
 
 		// Check if the random is finished //
 		var target = this.defineTarget(obj)
+		//var target = obj.round
 
 		// assign tween to obj //
 		var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
@@ -140,12 +151,11 @@ var Event = {
 
 	round : function(obj, radius, TWEEN){
 		var angle = (2 * Math.PI) / obj.length;
-	
 		for (var i = 0; i < obj.length; i++) {
 			obj[i].round = {};
 			obj[i].round.x = window.innerWidth/2 + Math.sin(angle * i) * radius;
 			obj[i].round.y = window.innerHeight/2 + Math.cos(angle * i) * radius;	
-			this.move(obj[i], obj[i].round, TWEEN);
+			this.move(obj[i], TWEEN);
 		};
 
 	},
