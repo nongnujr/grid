@@ -28,15 +28,24 @@ var Event = {
 
 	},
 
-	circularMove : function(speed,range){
-		if(this.angleX == undefined){
-			this.angleX = 0;
-		} else {
-			this.angleX += speed;
-		}
+	loop : function(collection, speed, range, type){
+		collection.forEach(function(item){
+			console.log(item)
+		})
+	},
 
-		this.translation.y = window.innerHeight/2 + Math.sin(this.angleX) * range;
-		this.translation.x = window.innerWidth/2 + Math.cos(this.angleX) * range;
+	circularMove : function(speed, range){
+
+		if(this.angleX == undefined){
+				this.angleX = 0;
+				this.currentPos = this.translation;
+		} else {
+				this.angleX += speed;
+		}	
+
+		this.translation.y = this.currentPos.y + Math.sin(this.angleX) * range;
+		this.translation.x = this.currentPos.x + Math.cos(this.angleX) * range;
+
 	},
 
 	moveLeft : function(speed,target){
@@ -94,7 +103,7 @@ var Event = {
 					var circle = new obj({
 						x : Math.random() * window.innerWidth,
 						y : Math.random() * window.innerHeight,
-						radius : 2
+						radius : 4
 					},two,Event)
 					this.addEvent(circle)
 					arr.push(circle)
@@ -137,12 +146,11 @@ var Event = {
 		})
 		.onComplete(function(){
 			if(obj.random === true) {
-				obj.random = void 0
+				obj.random = false;
 				return true;
 			}
 			obj.random = true;
 			Event.move(obj, TWEEN);
-
 		})
 		.easing(TWEEN.Easing.Quintic.Out)
 		.start(undefined);

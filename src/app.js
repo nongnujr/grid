@@ -28,7 +28,7 @@ var RoundEffect = require('./RoundEffect');
 	// duplicate the circle round system //
 	var collection = Event.duplicate(Circle, two, Event, text.vertices.length + 1);
 
-	// initial animation
+	// initiate animation //
 	Event.animate(collection, TWEEN, text.vertices);
 	Event.round(collection,5,TWEEN);
 
@@ -39,8 +39,12 @@ var RoundEffect = require('./RoundEffect');
 	two.bind("update", function(){
 
 		TWEEN.update();
-		this.count = this.count === undefined ? 0 : this.count; 
+
+		this.count = this.count === undefined ? 0 : this.count;
 		this.count++;
+
+		// Check if initial animation is completed //
+		if(collection[collection.length - 1].random === false) Event.loop(collection);
 
 	}).play();
 
