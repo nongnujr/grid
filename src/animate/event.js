@@ -30,6 +30,8 @@ var Event = {
 
 	loop : function(collection, speed, range, type){
 		collection.forEach(function(item){
+			item.speed = item.speed || Math.random() * 0.5  
+			item.circularMove(item.speed, 1);
 			console.log(item)
 		})
 	},
@@ -41,7 +43,7 @@ var Event = {
 				this.currentPos = this.translation;
 		} else {
 				this.angleX += speed;
-		}	
+		}
 
 		this.translation.y = this.currentPos.y + Math.sin(this.angleX) * range;
 		this.translation.x = this.currentPos.x + Math.cos(this.angleX) * range;

@@ -30,11 +30,11 @@ var RoundEffect = require('./RoundEffect');
 
 	// initiate animation //
 	Event.animate(collection, TWEEN, text.vertices);
-	Event.round(collection,5,TWEEN);
+	
 
 	// add center pivot //
 	var pivotCenter = new Line(two);
-
+ 
 	// Main timeline //
 	two.bind("update", function(){
 
@@ -44,7 +44,8 @@ var RoundEffect = require('./RoundEffect');
 		this.count++;
 
 		// Check if initial animation is completed //
-		if(collection[collection.length - 1].random === false) Event.loop(collection);
+		if(collection[collection.length - 1].random === false) collection[0].circularMove(0.1, 3);
+		// if(collection[collection.length - 1].random === false) Event.loop(collection);
 
 	}).play();
 
