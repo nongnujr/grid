@@ -30,6 +30,7 @@ var RoundEffect = require('./RoundEffect');
 
 	// initiate animation //
 	Event.animate(collection, TWEEN, text.vertices);
+	console.log("hello world")
 	
 
 	// add center pivot //
