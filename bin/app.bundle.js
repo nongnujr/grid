@@ -48,10 +48,11 @@
 	var Circle = __webpack_require__(1);
 	var Mouse = __webpack_require__(2);
 	var Arrow = __webpack_require__(3);
-	var Event = __webpack_require__(4);
-	var Line = __webpack_require__(5);
+	var Line = __webpack_require__(4);
+	var Text = __webpack_require__(5);
 	var TWEEN = __webpack_require__(6);
-	var RoundEffect = __webpack_require__(8);
+	var Event = __webpack_require__(8);
+	var RoundEffect = __webpack_require__(9);
 
 	(function(){
 
@@ -67,17 +68,34 @@
 			fullscreen : true
 		}).appendTo(elem);
 
-		// duplicate the circle round system //
-		var collection = Event.duplicate(Circle, two, Event, 10); 
+		//Create Text//
+		var text = Text.Create(two);
 
-		//Create Grid//
-		//Event.grid(collection, TWEEN);
+		// duplicate the circle round system //
+		var collection = Event.duplicate(Circle, two, Event, text.vertices.length + 1);
+
+		// initiate animation //
+		Event.animate(collection, TWEEN, text.vertices);
+		
 
 		// add center pivot //
 		var pivotCenter = new Line(two);
-
+	 
 		// Main timeline //
-		animate();
+		two.bind("update", function(){
+
+			TWEEN.update();
+
+			this.count = this.count === undefined ? 0 : this.count;
+			this.count++;
+
+			// Check if initial animation is completed //
+			if(collection[collection.length - 1].random === false) collection[0].circularMove(0.1, 3);
+			// if(collection[collection.length - 1].random === false) Event.loop(collection);
+
+		}).play();
+
+		//animate();
 		function animate(){
 
 			tween = requestAnimationFrame(animate);
@@ -89,17 +107,15 @@
 
 				//Round the object//
 				/*if(this.animate === 0){
-					Event.round(collection, 250, TWEEN);
+					Event.animate(collection, 250, TWEEN);
 					this.animate = 1;
 				} else if (this.animate === 1) {
-					Event.grid(collection, TWEEN);
+					Event.animate(collection, TWEEN);
 					this.animate = 0;
 				}*/
 
-				Event.grid(collection, TWEEN);
-				console.log("Fire")
+				Event.animate(collection, TWEEN);
 
-		
 				this.count = 0;
 
 			};
@@ -131,7 +147,7 @@
 			two.update();
 
 			// initiate the obj
-			init(); 
+			init();
 			function init(){
 				tween = requestAnimationFrame(init.bind(obj));
 				if(this.scale !== undefined){
@@ -179,170 +195,6 @@
 /* 4 */
 /***/ function(module, exports) {
 
-	// Mouse event
-	//var TWEEN = require('tween.js');
-	var Event = {
-		
-		swing : function(speed,range){
-
-			if(this.angleX == undefined){
-				this.angleX = 0;
-			} else {
-				this.angleX += speed;
-			}
-			this.translation.y = window.innerHeight/2 + Math.sin(this.angleX) * range;
-
-		},
-
-		wave : function(angleX,angleY,range){
-
-			if(this.initX == undefined){
-				this.initX = this.translation.x;
-				this.initY = this.translation.y;
-			}
-
-			this.angleX === void 0 ? this.angleX = 0 : this.angleX += angleX;
-			this.angleY === void 0 ? this.angleY = 0 : this.angleY += angleY;
-
-			this.translation.y = this.initY + Math.sin(this.angleX) * 100;
-			this.translation.x = this.initX + Math.sin(this.angleY) * 100;
-
-		},
-
-		circularMove : function(speed,range){
-			if(this.angleX == undefined){
-				this.angleX = 0;
-			} else {
-				this.angleX += speed;
-			}
-
-			this.translation.y = window.innerHeight/2 + Math.sin(this.angleX) * range;
-			this.translation.x = window.innerWidth/2 + Math.cos(this.angleX) * range;
-		},
-
-		moveLeft : function(speed,target){
-
-			this.distX = target.x - this.translation.x;
-			this.distY = target.y - this.translation.y;
-			
-			var dist = 0; 
-			Math.sign(this.distX) !== 1 ? dist = this.distX * -1 : dist = this.distX; 
-
-			// set radian using atan2 //
-			var radian = Math.atan2(this.distY, this.distX); 
-
-			// set velocity //
-			var vx = Math.cos(radian) * speed;
-			var vy = Math.sin(radian) * speed;
-
-			this.translation.x += Math.floor(vx);
-			this.translation.y += Math.floor(vy);
-
-		},
-
-		duplicate : function(obj, two, Event, count){
-
-			var row = count+1;
-			var gap = innerWidth / row;
-			var column = innerHeight / gap;
-			var arr = [];
-
-			for (var j = 0; j < (column - 1); j++) {
-			
-				for (var i = 0; i < (row - 1); i++) {
-
-						var circle = new obj({
-							x : Math.random() * window.innerWidth,
-							y : Math.random() * window.innerHeight,
-							radius : Math.random() * 10
-						},two,Event)
-
-						circle.grid = {
-							x: gap*(i+1),
-							y: gap*(j+1)
-						}
-
-						arr.push(circle)
-
-				};
-			};
-
-			return arr;
-			
-		},
-
-		grid : function(obj,TWEEN){
-			for (var i = 0; i < obj.length; i++) {
-				this.move(obj[i], TWEEN);
-			};
-		},
-
-		move : function(obj, TWEEN){
-
-			// Check if the random is finished //
-			var target = {}
-
-			if(obj.random === void 0){
-				target = {
-					x: Math.random() * window.innerWidth,
-					y: Math.random() * window.innerHeight
-				}
-			} else {
-				target = obj.grid;
-			}
-
-			// assign tween to obj //
-			var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
-			.to(target ,1000)
-			.onUpdate(function(){
-				 obj.translation.x = this.x;
-				 obj.translation.y = this.y;
-			})
-			.onComplete(function(){
-				if(obj.random === true) {
-					obj.random = void 0
-					return true;
-				}
-				obj.random = true;
-				Event.move(obj, TWEEN);
-
-			})
-			.easing(TWEEN.Easing.Quintic.InOut)
-			.start(undefined);
-
-		},
-
-		round : function(obj, radius, TWEEN){
-			var angle = (2 * Math.PI) / obj.length;
-			for (var i = 0; i < obj.length; i++) { 
-				obj[i].round = {};
-				obj[i].round.x = window.innerWidth/2 + Math.sin(angle * i) * radius;
-				obj[i].round.y = window.innerHeight/2 + Math.cos(angle * i) * radius;	
-				this.move(obj[i], obj[i].round, TWEEN);
-			};
-
-		},
-
-		random : function(obj, target, TWEEN){
-			//console.log(obj);
-			var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
-			.to(target,2000)
-			.onUpdate(function(){
-				 obj.translation.x = this.x;
-				 obj.translation.y = this.y;
-			})
-			.easing(TWEEN.Easing.Elastic.Out)
-			.start(undefined);
-		}
-
-	}
-
-	module.exports = Event;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
 	var Line = function(two){
 
 		var height = 30;
@@ -364,6 +216,51 @@
 	}
 
 	module.exports = Line;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	var Text = Text || (function(){
+		var _text = [];
+		return {
+			add : function(text){
+				_text.push(text);
+				console.log(_text);
+			}
+		}
+	})();
+
+	Text.Create = function(two){
+
+		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		//svg.innerHTML = '<path id="XMLID_4_" d="M94.5,168.9v-6.1v-4v-5.2v-3.7v-4.7v-4.8v-4.5v-4.3v-4.5v-4.2v-4.3v-4.3v-4.5v-4.2v-5V97c-1.7,1.4-3.8,2.4-6.9,3.4c-1.7,0.6-3.7,1.1-6.2,1.6c-1.9,0.4-3.9,0.7-6.3,1c-2.3,0.3-4.9,0.5-7.7,0.6c-2.2,0.1-4.6,0.2-7.2,0.2c-2.2,0-4.6,0.2-7.2,0.6c-2.6,0.4-5.3,1-7.9,1.8c-2.5,0.8-5,1.7-7.3,2.9c-1.8,0.9-3.6,2-5.3,3.2c-1.7,1.3-3.3,2.7-4.6,4.3c-1.4,1.6-2.6,3.5-3.5,5.5c-1.2,2.7-1.9,5.8-1.9,9.3c0,3,0.4,5.7,1.2,8.1c0.5,1.4,1,2.7,1.7,4c0.9,1.5,1.9,2.9,3.1,4.1c0.9,0.9,1.9,1.8,2.9,2.5c2,1.4,4.3,2.6,6.7,3.4c1.3,0.4,2.6,0.8,4,1.1c2.5,0.5,5.1,0.8,7.7,0.8c2,0,3.9-0.1,5.7-0.3c2.4-0.3,4.6-0.8,6.6-1.4c1.7-0.3,3.4-1,4.8-1.7v4.6v4.5v4v4.1c-1.4,0.3-3.1,1-4.8,1.4c-1.8,0.6-3.9,1-6.3,1.2c-1.8,0.2-3.8,0.2-6,0.2c-3.7,0-7.2-0.2-10.5-0.6c-3-0.3-5.8-0.8-8.4-1.5c-4-1-7.5-2.3-10.7-3.9c-2.1-1.1-4-2.3-5.8-3.8c-2.2-1.8-4.1-3.8-5.7-6c-1.6-2.3-3-4.8-4-7.5c-1.1-2.8-1.8-5.8-2.3-9c-0.4-2.6-0.5-5.3-0.5-8.1c0-4,0.4-7.7,1.2-11.1c0.9-3.7,2.3-7.1,4-10.2c1.7-2.9,3.7-5.5,6-7.7c2.3-2.3,4.9-4.3,7.6-6c2.5-1.6,5.3-2.9,8.1-4.1c2-0.8,4-1.5,6.1-2.1c2.6-0.8,5.3-1.4,8-1.9c3.2-0.6,6.4-1,9.7-1.2c2.5-0.2,5.1-0.3,7.6-0.3c2.8,0,5.4-0.1,7.7-0.2c2.4-0.1,4.6-0.3,6.5-0.4c2.9-0.3,5.3-0.6,7.5-1c2.9-0.5,5.2-1.2,7.1-1.8c2.7-1,4.5-2.1,5.5-3.4v-8.9c0-2.9-0.2-5.7-0.7-8.4c-0.4-2.5-1.1-4.9-1.9-7.2c-1-2.7-2.4-5.3-4-7.6c-1.3-1.8-2.8-3.4-4.4-4.9c-1.7-1.5-3.6-2.7-5.7-3.8c-1.3-0.7-2.7-1.2-4.1-1.7c-3.8-1.3-8.3-2-13.4-2c-2,0-3.9,0.1-5.8,0.4c-2.4,0.3-4.6,0.8-6.8,1.4c-2.2,0.6-4.3,1.4-6.3,2.2c-1.3,0.6-2.5,1.2-3.7,1.8c-1.7,0.9-3.2,1.9-4.7,2.9c-1.7,1.2-3.4,2.4-4.9,3.7c-1.2,1-2.3,2-3.4,3c-1.4,1.3-2.8,2.7-4.1,4.2c-0.9,1-1.7,2-2.6,3c-1,1.2-2,2.5-2.9,3.9c-1,1.4-1.9,2.9-2.8,4.4l-2.4-6l-1.3-3.3L7.1,53L5.4,49c0.8-1.5,1.7-3,2.6-4.5c0.9-1.5,1.9-2.9,3-4.3c0.9-1.1,1.8-2.2,2.8-3.2c1.1-1.2,2.3-2.3,3.6-3.4c1.3-1.2,2.7-2.4,4.3-3.5c1.5-1.2,3.2-2.3,5-3.3c1.4-0.8,2.8-1.6,4.3-2.3c1.6-0.8,3.3-1.5,5.1-2.2c2.1-0.8,4.4-1.5,6.8-2.1c2.4-0.6,4.9-1.1,7.6-1.4c3.1-0.4,6.3-0.6,9.8-0.6c3.2,0,6.3,0.2,9.2,0.5c3,0.3,5.8,0.9,8.6,1.6c2.3-1,4.5-2.2,6.6-3.7c1-0.7,2-1.4,2.9-2.2c1-0.8,1.9-1.7,2.7-2.7c1-1.2,1.9-2.5,2.6-3.9c1-2.1,1.6-4.3,1.6-6.8h5.4h5.3h4.3h5.6c0,3.4-0.5,6.4-1.5,9.1c-0.5,1.4-1.1,2.8-1.8,4c-0.7,1.3-1.5,2.5-2.4,3.6c-1.5,1.9-3.2,3.6-5.1,5.2c-1.2,0.9-2.4,1.8-3.6,2.6c-1.4,0.9-2.9,1.8-4.4,2.6c1.7,1.3,3.2,2.6,4.6,4.1c0.9,0.9,1.8,1.9,2.6,2.9c0.9,1.1,1.7,2.2,2.5,3.4c1.4,2.2,2.7,4.5,3.8,7.1c1.1,2.5,2,5.2,2.8,8.1c0.3,1.2,0.6,2.4,0.8,3.6c0.4,2.1,0.8,4.3,1.1,6.5c0.2,2,0.4,4.1,0.6,6.3c0.1,2,0.2,4.1,0.2,6.3v7.5v4.5v6.6v3.9v5.5v4.7v5.5v4v4.3v3.5v5v4v5v5v4.7v3.5v5.5v4v5.8h-4.4H106h-6H94.5z"/>'
+		svg.innerHTML = '<polygon id="XMLID_2_" points="223,114.2 195.1,142 167.2,169.9 139.4,197.8 111.5,225.7 83.6,197.8 55.7,169.9 27.9,142 0,114.2 27.9,86.3 55.7,58.4 83.6,30.6 111.5,2.7 139.4,30.6 167.2,58.4 195.1,86.3 "/>'
+		var shape = two.interpret(svg).center();
+		var area = shape.getBoundingClientRect(true);
+		shape.visible = false;
+		var arr = []
+
+		shape.scale = 1;
+		shape.translation.set(two.width / 2, two.height / 2);
+		shape.children[0].vertices.forEach(
+			function(item){
+				arr.push({
+					x: two.width / 2 + item.x - (area.width / 2),
+					y: two.height / 2 + item.y - (area.height / 2)
+				});
+
+				return arr;
+			}
+		)
+		
+		shape.vertices = arr
+
+		return shape;
+
+	}
+
+	module.exports = Text;
 
 /***/ },
 /* 6 */
@@ -769,7 +666,7 @@
 				}
 
 			}
-
+			//console.log(elapsed)
 			return true;
 
 		};
@@ -1430,6 +1327,216 @@
 
 /***/ },
 /* 8 */
+/***/ function(module, exports) {
+
+	// Mouse event
+	//var TWEEN = require('tween.js');
+	var Event = {
+		
+		swing : function(speed,range){
+
+			if(this.angleX == undefined){
+				this.angleX = 0;
+			} else {
+				this.angleX += speed;
+			}
+			this.translation.y = window.innerHeight/2 + Math.sin(this.angleX) * range;
+
+		},
+
+		wave : function(angleX,angleY,range){
+
+			if(this.initX == undefined){
+				this.initX = this.translation.x;
+				this.initY = this.translation.y;
+			}
+
+			this.angleX === void 0 ? this.angleX = 0 : this.angleX += angleX;
+			this.angleY === void 0 ? this.angleY = 0 : this.angleY += angleY;
+
+			this.translation.y = this.initY + Math.sin(this.angleX) * 100;
+			this.translation.x = this.initX + Math.sin(this.angleY) * 100;
+
+		},
+
+		loop : function(collection, speed, range, type){
+			collection.forEach(function(item){
+				item.speed = item.speed || Math.random() * 0.5  
+				item.circularMove(item.speed, 1);
+				console.log(item)
+			})
+		},
+
+		circularMove : function(speed, range){
+
+			if(this.angleX == undefined){
+					this.angleX = 0;
+					this.currentPos = this.translation;
+			} else {
+					this.angleX += speed;
+			}
+
+			this.translation.y = this.currentPos.y + Math.sin(this.angleX) * range;
+			this.translation.x = this.currentPos.x + Math.cos(this.angleX) * range;
+
+		},
+
+		moveLeft : function(speed,target){
+
+			this.distX = target.x - this.translation.x;
+			this.distY = target.y - this.translation.y;
+			
+			var dist = 0; 
+			Math.sign(this.distX) !== 1 ? dist = this.distX * -1 : dist = this.distX; 
+
+			// set radian using atan2 //
+			var radian = Math.atan2(this.distY, this.distX); 
+
+			// set velocity //
+			var vx = Math.cos(radian) * speed;
+			var vy = Math.sin(radian) * speed;
+
+			this.translation.x += Math.floor(vx);
+			this.translation.y += Math.floor(vy);
+
+		},
+
+		duplicateGrid : function(obj, two, Event, count){
+
+			var row = count+1;
+			var gap = innerWidth / row;
+			var column = innerHeight / gap;
+			var arr = [];
+
+			for (var j = 0; j < (column - 1); j++) {
+			
+				for (var i = 0; i < (row - 1); i++) {
+
+						var circle = new obj({
+							x : Math.random() * window.innerWidth,
+							y : Math.random() * window.innerHeight,
+							radius : Math.random() * 10
+						},two,Event)
+
+						arr.push(circle)
+
+				};
+			};
+
+			return arr;
+			
+		},
+
+		duplicate : function(obj, two, Event, count){
+
+			var arr = [];
+			
+				for (var i = 0; i < count-1; i++) {
+
+						var circle = new obj({
+							x : Math.random() * window.innerWidth,
+							y : Math.random() * window.innerHeight,
+							radius : 4
+						},two,Event)
+						this.addEvent(circle)
+						arr.push(circle)
+
+				};
+
+			return arr;
+			
+		},
+
+		addEvent : function(obj){
+			var elem = document.getElementById(obj.id)
+			elem.addEventListener('mouseover', function(){
+				obj.scale = 10;
+			})
+			elem.addEventListener('mouseout', function(){
+				obj.scale = 1;
+			})
+		},
+
+		animate : function(obj, TWEEN, target){
+			for (var i = 0; i < obj.length; i++) {
+				obj[i].target = target[i]
+				this.move(obj[i], TWEEN);
+			};
+		},
+
+		move : function(obj, TWEEN){
+
+			// Check if the random is finished //
+			var target = this.defineTarget(obj)
+			//var target = obj.round
+
+			// assign tween to obj //
+			var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
+			.to(target , 1000)
+			.onUpdate(function(){
+				 obj.translation.x = this.x;
+				 obj.translation.y = this.y;
+			})
+			.onComplete(function(){
+				if(obj.random === true) {
+					obj.random = false;
+					return true;
+				}
+				obj.random = true;
+				Event.move(obj, TWEEN);
+			})
+			.easing(TWEEN.Easing.Quintic.Out)
+			.start(undefined);
+
+		},
+
+		round : function(obj, radius, TWEEN){
+			var angle = (2 * Math.PI) / obj.length;
+			for (var i = 0; i < obj.length; i++) {
+				obj[i].round = {};
+				obj[i].round.x = window.innerWidth/2 + Math.sin(angle * i) * radius;
+				obj[i].round.y = window.innerHeight/2 + Math.cos(angle * i) * radius;	
+				this.move(obj[i], TWEEN);
+			};
+
+		},
+
+		random : function(obj, target, TWEEN){
+
+			//console.log(obj);
+			var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
+			.to(target,2000)
+			.onUpdate(function(){
+				 obj.translation.x = this.x;
+				 obj.translation.y = this.y;
+			})
+			.easing(TWEEN.Easing.Elastic.Out)
+			.start();
+			
+		},
+
+		defineTarget : function(obj){
+
+			var target = {}
+			if(obj.random === void 0){
+				target = {
+					x: Math.random() * window.innerWidth,
+					y: Math.random() * window.innerHeight
+				}
+			} else {
+				target = obj.target;
+			}
+
+			return target;
+
+		}
+
+	}
+
+	module.exports = Event;
+
+/***/ },
+/* 9 */
 /***/ function(module, exports) {
 
 	var RoundEffect = function(collection){
