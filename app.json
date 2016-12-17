@@ -1,0 +1,18 @@
+{
+  "name": "particle-text",
+  "description": "Generate app.json to create heroku pipeline",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/node.js"
+    }
+  ]
+}
