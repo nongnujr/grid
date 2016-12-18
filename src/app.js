@@ -30,12 +30,11 @@ var RoundEffect = require('./RoundEffect');
 
 	// initiate animation //
 	Event.animate(collection, TWEEN, text.vertices);
-	console.log("hello world")
-	
+
 
 	// add center pivot //
 	var pivotCenter = new Line(two);
- 
+
 	// Main timeline //
 	two.bind("update", function(){
 
@@ -45,36 +44,16 @@ var RoundEffect = require('./RoundEffect');
 		this.count++;
 
 		// Check if initial animation is completed //
-		if(collection[collection.length - 1].random === false) collection[0].circularMove(0.1, 3);
-		// if(collection[collection.length - 1].random === false) Event.loop(collection);
+		/*if(collection[collection.length - 1].random === false){
+			for (var i = 0; i < collection.length; i++) {
+				collection[i].circularMove(0.1, 2);
+			};
+		}*/
+		
+		//console.log(collection[0].currentPos.x)
+		//if(collection[collection.length - 1].random === false) collection[0].circularMove(0.1, 2);;
 
 	}).play();
-
-	//animate();
-	function animate(){
-
-		tween = requestAnimationFrame(animate);
-		two.update();
-		TWEEN.update();
-		this.count++
-
-		if(this.count === 360){
-
-			//Round the object//
-			/*if(this.animate === 0){
-				Event.animate(collection, 250, TWEEN);
-				this.animate = 1;
-			} else if (this.animate === 1) {
-				Event.animate(collection, TWEEN);
-				this.animate = 0;
-			}*/
-
-			Event.animate(collection, TWEEN);
-
-			this.count = 0;
-
-		};
-	}
 	
 })();
 

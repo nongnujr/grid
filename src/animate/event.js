@@ -37,16 +37,21 @@ var Event = {
 	},
 
 	circularMove : function(speed, range){
-
-		if(this.angleX == undefined){
-				this.angleX = 0;
-				this.currentPos = this.translation;
+		this.y = this.currentPos.y;
+		if(this.translation.y < (this.y + range * 10)){
+			this.translation.y -= 1
+			console.log(this.y)
+		}
+		/*if(this.angleX == undefined){
+				this.angleX = 0;	
+				this.translation.y -= range * 10
+				
 		} else {
 				this.angleX += speed;
 		}
 
 		this.translation.y = this.currentPos.y + Math.sin(this.angleX) * range;
-		this.translation.x = this.currentPos.x + Math.cos(this.angleX) * range;
+		this.translation.x = this.currentPos.x + Math.cos(this.angleX) * range;*/
 
 	},
 
@@ -107,7 +112,6 @@ var Event = {
 						y : Math.random() * window.innerHeight,
 						radius : 4
 					},two,Event)
-					this.addEvent(circle)
 					arr.push(circle)
 
 			};
@@ -119,10 +123,10 @@ var Event = {
 	addEvent : function(obj){
 		var elem = document.getElementById(obj.id)
 		elem.addEventListener('mouseover', function(){
-			obj.scale = 10;
+			obj.scale += 1;
 		})
 		elem.addEventListener('mouseout', function(){
-			obj.scale = 1;
+			obj.scale -= 1;
 		})
 	},
 
@@ -149,6 +153,7 @@ var Event = {
 		.onComplete(function(){
 			if(obj.random === true) {
 				obj.random = false;
+				obj.currentPos = obj.translation;
 				return true;
 			}
 			obj.random = true;
