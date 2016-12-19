@@ -9,7 +9,7 @@ var Circle = function(param,two,Event){
 		obj.swing = Event.swing;
 		obj.circularMove = Event.circularMove;
 		obj.moveLeft = Event.moveLeft;
-		obj.move = Event.move;
+		obj.moveTo = Event.moveTo;
 
 		// render
 		two.scene.add(obj);

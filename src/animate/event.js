@@ -28,20 +28,12 @@ var Event = {
 
 	},
 
-	loop : function(collection, speed, range, type){
-		collection.forEach(function(item){
-			item.speed = item.speed || Math.random() * 0.5  
-			item.circularMove(item.speed, 1);
-			console.log(item)
-		})
-	},
-
 	circularMove : function(speed, range){
-		this.y = this.currentPos.y;
-		if(this.translation.y < (this.y + range * 10)){
+		if(!this.target) this.target = this.translation 
+		if(this.translation.y > this.target.y - (range*10)){
 			this.translation.y -= 1
-			console.log(this.y)
 		}
+
 		/*if(this.angleX == undefined){
 				this.angleX = 0;	
 				this.translation.y -= range * 10
@@ -117,7 +109,7 @@ var Event = {
 			};
 
 		return arr;
-		
+
 	},
 
 	addEvent : function(obj){
@@ -137,34 +129,12 @@ var Event = {
 		};
 	},
 
-	move : function(obj, TWEEN){
-
-		// Check if the random is finished //
-		var target = this.defineTarget(obj)
-		//var target = obj.round
-
-		// assign tween to obj //
-		var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
-		.to(target , 1000)
-		.onUpdate(function(){
-			 obj.translation.x = this.x;
-			 obj.translation.y = this.y;
-		})
-		.onComplete(function(){
-			if(obj.random === true) {
-				obj.random = false;
-				obj.currentPos = obj.translation;
-				return true;
-			}
-			obj.random = true;
-			Event.move(obj, TWEEN);
-		})
-		.easing(TWEEN.Easing.Quintic.Out)
-		.start(undefined);
-
+	moveTo : function(){
+		console.log("move")
 	},
 
 	round : function(obj, radius, TWEEN){
+
 		var angle = (2 * Math.PI) / obj.length;
 		for (var i = 0; i < obj.length; i++) {
 			obj[i].round = {};
@@ -177,7 +147,6 @@ var Event = {
 
 	random : function(obj, target, TWEEN){
 
-		//console.log(obj);
 		var test = new TWEEN.Tween({x:obj.translation.x, y:obj.translation.y})
 		.to(target,2000)
 		.onUpdate(function(){
@@ -187,22 +156,6 @@ var Event = {
 		.easing(TWEEN.Easing.Elastic.Out)
 		.start();
 		
-	},
-
-	defineTarget : function(obj){
-
-		var target = {}
-		if(obj.random === void 0){
-			target = {
-				x: Math.random() * window.innerWidth,
-				y: Math.random() * window.innerHeight
-			}
-		} else {
-			target = obj.target;
-		}
-
-		return target;
-
 	}
 
 }
