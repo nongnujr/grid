@@ -28,10 +28,7 @@ var RoundEffect = require('./RoundEffect');
 
 	// duplicate the circle round system //
 	var collection = Event.duplicate(Circle, two, Event, text.vertices.length + 1);
-	collection[0].moveTo();
-
-	// initiate animation //
-	//var currnetPos = Event.animate(collection, TWEEN, text.vertices);
+	Event.animateToShape(collection, text.vertices);
 
 	// add center pivot //
 	var pivotCenter = new Line(two);
@@ -43,8 +40,6 @@ var RoundEffect = require('./RoundEffect');
 
 		this.count = this.count === undefined ? 0 : this.count;
 		this.count++;
-
-		//if(collection[collection.length - 1].random === false) collection[0].circularMove(0.1, 3);
 
 	}).play();
 	

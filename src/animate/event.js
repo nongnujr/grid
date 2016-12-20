@@ -28,11 +28,11 @@ var Event = {
 
 	},
 
-	circularMove : function(speed, range){
-		if(!this.target) this.target = this.translation 
-		if(this.translation.y > this.target.y - (range*10)){
-			this.translation.y -= 1
-		}
+	circularMove : function(obj, speed, range){
+		
+		var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+		obj.translation.y += speed * plusOrMinus
+		obj.translation.x += speed * plusOrMinus
 
 		/*if(this.angleX == undefined){
 				this.angleX = 0;	
@@ -122,15 +122,36 @@ var Event = {
 		})
 	},
 
-	animate : function(obj, TWEEN, target){
-		for (var i = 0; i < obj.length; i++) {
-			obj[i].target = target[i]
-			this.move(obj[i], TWEEN);
+	animateToShape : function(col,target,cb){
+		for (var i = 0; i < col.length; i++) {
+			this.moveTo.call(col[i], target[i].x, target[i].y);
 		};
 	},
 
-	moveTo : function(){
-		console.log("move")
+	moveTo : function(xTarget, yTarget){
+
+		var easingType = TWEEN.Easing.Elastic.Out;
+		var obj = this;
+		var animate = new TWEEN.Tween({
+				x: this.translation.x,
+				y: this.translation.y
+			})
+			.to({
+				x: xTarget,
+				y: yTarget
+			}, 2000)
+			.onUpdate(function(){
+				obj.translation.x = this.x;
+			 	obj.translation.y = this.y;
+			})
+			.onComplete(function(){
+				obj.animate = false;
+				return
+			})
+			.delay(1000)
+			.easing(easingType)
+			.start()
+
 	},
 
 	round : function(obj, radius, TWEEN){
