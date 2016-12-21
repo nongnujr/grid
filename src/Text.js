@@ -9,11 +9,10 @@ var Text = Text || (function(){
 	}
 })();
 
-Text.Create = function(two){
+Text.Create = function(char){
 
-	var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-	//svg.innerHTML = '<polygon id="XMLID_2_" points="223,114.2 195.1,142 167.2,169.9 139.4,197.8 111.5,225.7 83.6,197.8 55.7,169.9 27.9,142 0,114.2 27.9,86.3 55.7,58.4 83.6,30.6 111.5,2.7 139.4,30.6 167.2,58.4 195.1,86.3 "/>'
-	svg.innerHTML = '<path d="' + json[0].ก + '"/>'
+	var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");	
+	svg.innerHTML = '<path d="' + json[char.toString()].code + '"/>';
 	var shape = two.interpret(svg).center();
 	var area = shape.getBoundingClientRect(true);
 	shape.visible = false;

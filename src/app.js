@@ -14,6 +14,22 @@ var RoundEffect = require('./RoundEffect');
 	this.count = 0;
 	this.animate = 0;
 	this.TWEEN = TWEEN;
+	var state = {};
+	var text = [];
+
+	window.addEventListener('keypress', function(){
+
+		//Create Text//
+		state.count = state.count || 0
+		text.push(Text.Create(event.keyCode));
+
+		// duplicate the circle round system //
+		var collection = Event.duplicate(Circle, two, Event, text[state.count].vertices.length + 1);
+		Event.animateToShape(collection, text[state.count].vertices);
+
+		state.count++
+	
+	})
 
 	// get element to render two //
 	var elem = document.getElementById('space');
@@ -23,12 +39,7 @@ var RoundEffect = require('./RoundEffect');
 		fullscreen : true
 	}).appendTo(elem);
 
-	//Create Text//
-	var text = Text.Create(two);
-
-	// duplicate the circle round system //
-	var collection = Event.duplicate(Circle, two, Event, text.vertices.length + 1);
-	Event.animateToShape(collection, text.vertices);
+	this.two = two;
 
 	// add center pivot //
 	var pivotCenter = new Line(two);
