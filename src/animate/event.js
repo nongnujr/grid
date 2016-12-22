@@ -31,8 +31,8 @@ var Event = {
 	circularMove : function(obj, speed, range){
 		
 		var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
-		obj.translation.y += speed * plusOrMinus
-		obj.translation.x += speed * plusOrMinus
+		obj.translation.y += speed * plusOrMinus;
+		obj.translation.x += speed * plusOrMinus;
 
 		/*if(this.angleX == undefined){
 				this.angleX = 0;	
@@ -124,12 +124,19 @@ var Event = {
 
 	animateToShape : function(col,target,cb){
 		for (var i = 0; i < col.length; i++) {
-			this.moveTo.call(col[i], target[i].x, target[i].y);
+			this.moveTo.call(col[i], target[i].x, target[i].y, col, i, cb);
 		};
 	},
 
-	moveTo : function(xTarget, yTarget){
+	moveToLeft : function(text){
+		console.log(text[0]);
+		for (var i = 0; i < text[0].length; i++) {
+				text[0][i].translation.x -= 200
+		};
+	},
 
+	moveTo : function(xTarget, yTarget, col, i, cb){
+	
 		var easingType = TWEEN.Easing.Elastic.Out;
 		var obj = this;
 		var animate = new TWEEN.Tween({
@@ -145,8 +152,8 @@ var Event = {
 			 	obj.translation.y = this.y;
 			})
 			.onComplete(function(){
-				obj.animate = false;
-				return
+				if(i === col.length - 1) cb(col);
+				return 
 			})
 			.delay(1000)
 			.easing(easingType)

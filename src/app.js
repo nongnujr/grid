@@ -21,12 +21,21 @@ var RoundEffect = require('./RoundEffect');
 
 		//Create Text//
 		state.count = state.count || 0
-		text.push(Text.Create(event.keyCode));
+		var charecter = Text.Create(event.keyCode);
+
+		if(text.length > 0) {
+			Event.moveToLeft(text);
+		}
 
 		// duplicate the circle round system //
-		var collection = Event.duplicate(Circle, two, Event, text[state.count].vertices.length + 1);
-		Event.animateToShape(collection, text[state.count].vertices);
+		var collection = Event.duplicate(Circle, two, Event, charecter.vertices.length + 1);
 
+		// Animate obj to shape //
+		/*Event.animateToShape(collection, charecter.vertices, function(col){
+			console.log(col);
+			text.push(col);
+		});
+*/
 		state.count++
 	
 	})
@@ -37,7 +46,7 @@ var RoundEffect = require('./RoundEffect');
 	// initiate screen //
 	var two = new Two({
 		fullscreen : true
-	}).appendTo(elem);
+	}).appendTo(elem); 
 
 	this.two = two;
 
@@ -48,7 +57,6 @@ var RoundEffect = require('./RoundEffect');
 	two.bind("update", function(){
 
 		TWEEN.update();
-
 		this.count = this.count === undefined ? 0 : this.count;
 		this.count++;
 

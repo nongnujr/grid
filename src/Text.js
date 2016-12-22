@@ -4,20 +4,18 @@ var Text = Text || (function(){
 	return {
 		add : function(text){
 			_text.push(text);
-			console.log(_text);
 		}
 	}
 })();
 
 Text.Create = function(char){
-
-	var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");	
-	svg.innerHTML = '<path d="' + json[char.toString()].code + '"/>';
+	var arr = []
+	var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	svg.innerHTML = '<path d="' + json[char.toString()].code + '"/>';	
 	var shape = two.interpret(svg).center();
 	var area = shape.getBoundingClientRect(true);
-	shape.visible = false;
 
-	var arr = []
+	shape.visible = false;
 
 	shape.scale = 1;
 	shape.translation.set(two.width / 2, two.height / 2);
@@ -25,7 +23,9 @@ Text.Create = function(char){
 		function(item){
 			arr.push({
 				x: two.width / 2 + item.x - (area.width / 2),
-				y: two.height / 2 + item.y - (area.height / 2)
+				y: two.height / 2 + item.y - (area.height / 2),
+				width: area.width,
+				height: area.height
 			});
 
 			return arr;
