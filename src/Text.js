@@ -8,7 +8,8 @@ var Text = Text || (function(){
 	}
 })();
 
-Text.Create = function(char){
+Text.Create = function(char,position){
+
 	var arr = []
 	var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 	svg.innerHTML = '<path d="' + json[char.toString()].code + '"/>';	
@@ -22,17 +23,17 @@ Text.Create = function(char){
 	shape.children[0].vertices.forEach(
 		function(item){
 			arr.push({
-				x: two.width / 2 + item.x - (area.width / 2),
-				y: two.height / 2 + item.y - (area.height / 2),
-				width: area.width,
-				height: area.height
+				x: (two.width / 2 + item.x - (area.width / 2)) + position,
+				y: two.height / 2 + item.y - (area.height / 2)
 			});
 
 			return arr;
 		}
 	)
 	
-	shape.vertices = arr
+	shape.vertices = arr;
+	shape.width = area.width;
+	shape.height = area.height;
 
 	return shape;
 
