@@ -18,9 +18,10 @@ var RoundEffect = require('./RoundEffect');
 	var totalWidth = 0;
 
 	window.addEventListener('keypress', function(){
-		var position = text.length > 0 ? totalWidth / 2 : 0; 
+		
+		var position = text.length > 1 ? totalWidth / 2 : 0;
 
-		//Create Text//
+		// Create Text //
 		var charecter = Text.Create(event.keyCode, position);
 
 		// duplicate the circle round system //
