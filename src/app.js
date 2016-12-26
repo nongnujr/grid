@@ -28,7 +28,7 @@ var RoundEffect = require('./RoundEffect');
 		}
 
 		// duplicate the circle round system //
-		var collection = Event.duplicate(Circle, two, Event, charecter.vertices.length + 1);
+		var collection = Event.duplicate(Circle, two, Event, charecter);
 
 		// Animate obj to shape //
 		/*Event.animateToShape(collection, charecter.vertices, function(col){
