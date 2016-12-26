@@ -8,7 +8,7 @@ var Text = Text || (function(){
 	}
 })();
 
-Text.Create = function(char,position){
+Text.Create = function(char){
 
 	var arr = []
 	var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -23,7 +23,7 @@ Text.Create = function(char,position){
 	shape.children[0].vertices.forEach(
 		function(item){
 			arr.push({
-				x: (two.width / 2 + item.x - (area.width / 2)) + position,
+				x: two.width / 2 + item.x - (area.width / 2),
 				y: two.height / 2 + item.y - (area.height / 2)
 			});
 

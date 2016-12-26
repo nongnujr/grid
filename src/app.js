@@ -19,10 +19,21 @@ var RoundEffect = require('./RoundEffect');
 
 	window.addEventListener('keypress', function(){
 		
-		var position = text.length > 1 ? totalWidth / 2 : 0;
+		var position = 0
+
+		/*if(text.length > 0){
+			position = Math.floor(totalWidth / (text.length * 2))
+			console.log(position)
+			text.forEach(function(item,index){
+				if(index === text.length) return;
+				for (var i = 0; i < item.points.length; i++) {
+					item.points[i].translation.x -= position;
+				};
+			})			
+		}*/
 
 		// Create Text //
-		var charecter = Text.Create(event.keyCode, position);
+		var charecter = Text.Create(event.keyCode);
 
 		// duplicate the circle round system //
 		var collection = Event.duplicate(Circle, two, Event, charecter);
