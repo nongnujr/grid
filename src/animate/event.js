@@ -93,11 +93,12 @@ var Event = {
 		
 	},
 
-	duplicate : function(obj, two, Event, count){
-
+	duplicate : function(obj, two, Event, charecter){
+		var count = charecter.vertices.length + 1
 		var arr = [];
 		
 			for (var i = 0; i < count-1; i++) {
+
 
 					var circle = new obj({
 						x : Math.random() * window.innerWidth,
@@ -108,7 +109,11 @@ var Event = {
 
 			};
 
-		return arr;
+		return {
+			points : arr,
+			width : charecter.width,
+			height : charecter.height
+		};
 
 	},
 
@@ -123,8 +128,9 @@ var Event = {
 	},
 
 	animateToShape : function(col,target,cb){
-		for (var i = 0; i < col.length; i++) {
-			this.moveTo.call(col[i], target[i].x, target[i].y, col, i, cb);
+		var obj = col.points
+		for (var i = 0; i < obj.length; i++) {
+			this.moveTo.call(obj[i], target[i].x, target[i].y, col, i, cb);
 		};
 	},
 
@@ -152,7 +158,7 @@ var Event = {
 			 	obj.translation.y = this.y;
 			})
 			.onComplete(function(){
-				if(i === col.length - 1) cb(col);
+				if(i === col.points.length - 1) cb(col);
 				return 
 			})
 			.delay(1000)

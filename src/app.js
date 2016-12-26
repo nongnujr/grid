@@ -14,29 +14,24 @@ var RoundEffect = require('./RoundEffect');
 	this.count = 0;
 	this.animate = 0;
 	this.TWEEN = TWEEN;
-	var state = {};
 	var text = [];
+	var totalWidth = 0;
 
 	window.addEventListener('keypress', function(){
+		
+		var position = text.length > 1 ? totalWidth / 2 : 0;
 
-		//Create Text//
-		state.count = state.count || 0
-		var charecter = Text.Create(event.keyCode);
-
-		if(text.length > 0) {
-			Event.moveToLeft(text);
-		}
+		// Create Text //
+		var charecter = Text.Create(event.keyCode, position);
 
 		// duplicate the circle round system //
 		var collection = Event.duplicate(Circle, two, Event, charecter);
 
 		// Animate obj to shape //
-		/*Event.animateToShape(collection, charecter.vertices, function(col){
-			console.log(col);
+		Event.animateToShape(collection, charecter.vertices, function(col){
 			text.push(col);
+			totalWidth += text[text.length-1].width;
 		});
-*/
-		state.count++
 	
 	})
 
