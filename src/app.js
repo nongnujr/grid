@@ -19,18 +19,16 @@ var RoundEffect = require('./RoundEffect');
 
 	window.addEventListener('keypress', function(){
 		
-		var position = 0
+		var position = totalWidth / 2
 
-		/*if(text.length > 0){
-			position = Math.floor(totalWidth / (text.length * 2))
-			console.log(position)
-			text.forEach(function(item,index){
-				if(index === text.length) return;
-				for (var i = 0; i < item.points.length; i++) {
-					item.points[i].translation.x -= position;
-				};
-			})			
-		}*/
+		if(text.length > 0){
+			for (var i = 0; i < text.length; i++) {
+				text[i].points.forEach(function(item){
+					item.translation.x -= text[0].width / 2;
+				});
+			};
+			//position = totalWidth / 2;
+		}
 
 		// Create Text //
 		var charecter = Text.Create(event.keyCode);
@@ -39,9 +37,10 @@ var RoundEffect = require('./RoundEffect');
 		var collection = Event.duplicate(Circle, two, Event, charecter);
 
 		// Animate obj to shape //
-		Event.animateToShape(collection, charecter.vertices, function(col){
+		Event.animateToShape(collection, charecter.vertices, position, function(col){
 			text.push(col);
 			totalWidth += text[text.length-1].width;
+			console.log(text);
 		});
 	
 	})

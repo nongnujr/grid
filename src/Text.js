@@ -23,8 +23,8 @@ Text.Create = function(char){
 	shape.children[0].vertices.forEach(
 		function(item){
 			arr.push({
-				x: two.width / 2 + item.x - (area.width / 2),
-				y: two.height / 2 + item.y - (area.height / 2)
+				x: Math.floor(two.width / 2 + item.x - (area.width / 2)),
+				y: Math.floor(two.height / 2 + item.y - (area.height / 2))
 			});
 
 			return arr;
@@ -32,8 +32,8 @@ Text.Create = function(char){
 	)
 	
 	shape.vertices = arr;
-	shape.width = area.width;
-	shape.height = area.height;
+	shape.width = Math.floor(area.width);
+	shape.height = Math.floor(area.height);
 
 	return shape;
 

@@ -101,8 +101,8 @@ var Event = {
 			for (var i = 0; i < count-1; i++) {
 
 					var circle = new obj({
-						x : Math.random() * window.innerWidth,
-						y : Math.random() * window.innerHeight,
+						x : (window.innerWidth / 2) + Math.random() * window.innerWidth/2,
+						y : Math.random() * window.innerHeight/2,
 						radius : radius
 					},two,Event)
 					arr.push(circle)
@@ -127,10 +127,10 @@ var Event = {
 		})
 	},
 
-	animateToShape : function(col,target,cb){
-		var obj = col.points
+	animateToShape : function(col, target, position, cb){
+		var obj = col.points;
 		for (var i = 0; i < obj.length; i++) {
-			this.moveTo.call(obj[i], target[i].x, target[i].y, col, i, cb);
+			this.moveTo.call(obj[i], target[i].x + position, target[i].y, col, i, cb);
 		};
 	},
 
