@@ -27,7 +27,6 @@ var RoundEffect = require('./RoundEffect');
 					item.translation.x -= text[0].width / 2;
 				});
 			};
-			//position = totalWidth / 2;
 		}
 
 		// Create Text //

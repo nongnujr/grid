@@ -95,13 +95,14 @@ var Event = {
 
 	duplicate : function(obj, two, Event, charecter){
 		var radius = 4
+		var gap = 20
 		var count = charecter.vertices.length + 1
 		var arr = [];
 		
 			for (var i = 0; i < count-1; i++) {
 
 					var circle = new obj({
-						x : (window.innerWidth / 2) + Math.random() * window.innerWidth/2,
+						x : Math.random() * window.innerWidth/2,
 						y : Math.random() * window.innerHeight/2,
 						radius : radius
 					},two,Event)
@@ -111,7 +112,7 @@ var Event = {
 
 		return {
 			points : arr,
-			width : charecter.width + (radius*2),
+			width : charecter.width + (gap + radius),
 			height : charecter.height
 		};
 
