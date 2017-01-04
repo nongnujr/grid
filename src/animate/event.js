@@ -34,17 +34,6 @@ var Event = {
 		obj.translation.y += speed * plusOrMinus;
 		obj.translation.x += speed * plusOrMinus;
 
-		/*if(this.angleX == undefined){
-				this.angleX = 0;	
-				this.translation.y -= range * 10
-				
-		} else {
-				this.angleX += speed;
-		}
-
-		this.translation.y = this.currentPos.y + Math.sin(this.angleX) * range;
-		this.translation.x = this.currentPos.x + Math.cos(this.angleX) * range;*/
-
 	},
 
 	moveLeft : function(speed,target){
@@ -102,8 +91,8 @@ var Event = {
 			for (var i = 0; i < count-1; i++) {
 
 					var circle = new obj({
-						x : Math.random() * window.innerWidth/2,
-						y : Math.random() * window.innerHeight/2,
+						x : Math.random() * window.innerWidth,
+						y : Math.random() * window.innerHeight,
 						radius : radius
 					},two,Event)
 					arr.push(circle)
@@ -128,43 +117,32 @@ var Event = {
 		})
 	},
 
-	animateToShape : function(col, target, position, cb){
-		var obj = col.points;
-		for (var i = 0; i < obj.length; i++) {
-			this.moveTo.call(obj[i], target[i].x + position, target[i].y, col, i, cb);
-		};
-	},
-
-	moveToLeft : function(text){
-		console.log(text[0]);
-		for (var i = 0; i < text[0].length; i++) {
-				text[0][i].translation.x -= 200
-		};
-	},
-
-	moveTo : function(xTarget, yTarget, col, i, cb){
-	
+	moveTo : function(target, cb){
+		console.log(this);
+		
+		/*var obj = this;
+		var collection = [];
 		var easingType = TWEEN.Easing.Elastic.Out;
-		var obj = this;
 		var animate = new TWEEN.Tween({
 				x: this.translation.x,
 				y: this.translation.y
 			})
 			.to({
-				x: xTarget,
-				y: yTarget
+				x: target.x,
+				y: target.y
 			}, 2000)
 			.onUpdate(function(){
 				obj.translation.x = this.x;
 			 	obj.translation.y = this.y;
 			})
 			.onComplete(function(){
-				if(i === col.points.length - 1) cb(col);
+				collection.push(obj)
+				if(i === col.points.length - 1) cb(obj);
 				return 
 			})
 			.delay(1000)
 			.easing(easingType)
-			.start()
+			.start()*/
 
 	},
 
