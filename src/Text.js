@@ -20,6 +20,7 @@ Text.Create = function(char){
 
 	shape.scale = 1;
 	shape.translation.set(two.width / 2, two.height / 2);
+	
 	shape.children[0].vertices.forEach(
 		function(item){
 			arr.push({
