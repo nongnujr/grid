@@ -6,7 +6,10 @@ var Shape = Shape || (function(){
 			collection.push(object);
 		},
 		getAll : function(){
-			return collection.length;
+			return collection;
+		},
+		getCurrentObject : function(){
+			return collection[collection.length - 1]
 		}
 	}
 })();
@@ -40,14 +43,30 @@ Shape.create = function(object,amount){
 	})();
 
 	this.moveTo = function(target){
-		var tween = new TWEEN
+
+		var object = Shape.getCurrentObject();
+
+		var tween = function(object,index){
+			var tween = new TWEEN.Tween({
+				x: object.translation.x,
+				y: object.translation.y
+			})
+			.to(target[index],2000)
+			.onUpdate(function(){
+				object.translation.set(this.x,this.y)
+			})
+			.easing(TWEEN.Easing.Elastic.Out)
+			.start();
+		}
+
+		object.forEach(tween);
+
 	}
 
 	this.stop = function(){
 		console.log("stop")
 		return this;
 	}
-
 
 }
 

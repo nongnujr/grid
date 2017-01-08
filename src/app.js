@@ -27,8 +27,6 @@ var Shape = require('./Shape');
 		var shape = new Shape
 			.create(Circle, charecter.vertices.length)
 			.moveTo(charecter.vertices);
-
-		console.log(Shape.getAll())
 	})
 
 	// Main timeline //
