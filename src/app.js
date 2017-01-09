@@ -20,13 +20,15 @@ var Shape = require('./Shape');
 	// initiate screen //
 	window.addEventListener('keypress', function(){
 
+		Shape.setPosition();
+
 		// Create Text //
 		var charecter = Text.Create(event.keyCode);
 
 		// duplicate the circle round system //
 		var shape = new Shape
-			.create(Circle, charecter.vertices.length)
-			.moveTo(charecter.vertices);
+			.create(Circle, charecter)
+			.moveTo(charecter);
 	})
 
 	// Main timeline //
