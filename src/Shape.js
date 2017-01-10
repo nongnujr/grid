@@ -74,26 +74,29 @@ Shape.create = function(object, mock){
 	})();
 
 	this.moveTo = function(mock){
-		
+
 		Shape.setPosition();
 		var target = mock.vertices || _mock.vertices;
 		var object = Shape.getCurrentObject();
 		var addition = Shape.getWidth()/2 - mock.width/2;
-
+		var complete = function(){
+			if(this.index === target.length-1) console.log("complate")
+		};
 		var tween = function(object,index){
 			var tween = new TWEEN.Tween({
 				x: object.translation.x,
-				y: object.translation.y
+				y: object.translation.y,
+				index : index
 			})
 			.to({
 				x: target[index].x + addition,
 				y: target[index].y
-			}, 2000)
+			}, 1000)
 			.onUpdate(function(){
 				object.translation.set(this.x,this.y)
 			})
 			.easing(TWEEN.Easing.Elastic.Out)
-			.delay(1000)
+			.onComplete(complete)
 			.start();
 		}
 
