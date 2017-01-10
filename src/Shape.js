@@ -4,6 +4,7 @@ var Shape = Shape || (function(){
 	var fullWidth = 0;
 	
 	return {
+		
 		add : function(object, width){
 			collection.push(object);
 			fullWidth += width;
@@ -49,7 +50,7 @@ Shape.create = function(object, mock){
 	var _mock = mock
 	
 	this.create = (function(){
-		
+
 		function addToArray(){
 			var arr = Array(_amount);
 			for (var i = 0; i < arr.length; i++) {
@@ -76,12 +77,15 @@ Shape.create = function(object, mock){
 	this.moveTo = function(mock){
 
 		Shape.setPosition();
+
 		var target = mock.vertices || _mock.vertices;
 		var object = Shape.getCurrentObject();
 		var addition = Shape.getWidth()/2 - mock.width/2;
+
 		var complete = function(){
-			if(this.index === target.length-1) console.log("complate")
+			if(this.index === target.length-1) console.log("complate");
 		};
+
 		var tween = function(object,index){
 			var tween = new TWEEN.Tween({
 				x: object.translation.x,

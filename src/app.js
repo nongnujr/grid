@@ -16,16 +16,16 @@ var Shape = require('./Shape');
 	this.two = new Two({fullscreen : true}).appendTo(elem); 
 	var pivotCenter = new Line(two);// add center pivot //
 	var text = [];
+	this.createChar = function(){
 
-	// initiate screen //
-	window.addEventListener('keyup', createChar)
-
-	function createChar(){
 		var charecter = Text.Create(event.keyCode);
 		var shape = new Shape
 			.create(Circle, charecter) 
 			.moveTo(charecter);
 	}
+
+	// initiate screen //
+	window.addEventListener('keyup', createChar)
 
 	// Main timeline //
 	two.bind("update", function(){
