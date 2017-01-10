@@ -24,10 +24,9 @@ var Shape = require('./Shape');
 		var charecter = Text.Create(event.keyCode);
 
 		// duplicate the circle round system //
-		var shape = new Shape
-			.create(Circle, charecter.vertices.length)
-			.moveTo(charecter.vertices);
-			
+		var shape = new Shape.create(Circle,charecter)
+			.moveTo();
+
 	})
 
 	// Main timeline //

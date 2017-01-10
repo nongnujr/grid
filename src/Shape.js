@@ -15,18 +15,41 @@ var Shape = Shape || (function(){
 	}
 })();
 
-var Shape = function(obj, amount){
+Shape.create = function(obj, mock){
+	
+	var _obj = obj;
+	var _mock = mock;
+	var _amount = Array(mock.vertices.length);
 
 	this.create = (function(){
-		function create(){
-			
+
+		function looper(){
+			for (var i = 0; i < _amount.length; i++) {
+				_amount[i] = create();
+
+			};
+			return _amount
 		}
+
+		function create(){
+			var object = _obj({
+				x: Math.random() * window.innerWidth,
+				y: Math.random() * window.innerHeight,
+				radius: 4
+			})
+			return object
+		}
+
+		Shape.add(looper());
+		return this;
+
 	})();
 
 	this.moveTo = function(target){
 
+		var target = target || mock.vertices;
 		var object = Shape.getCurrentObject();
-
+		
 		var tween = function(object,index){
 			var tween = new TWEEN.Tween({
 				x: object.translation.x,
@@ -41,7 +64,7 @@ var Shape = function(obj, amount){
 		}
 
 		object.forEach(tween);
-
+		return this
 	}
 
 	this.stop = function(){
