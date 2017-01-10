@@ -1,9 +1,15 @@
 var Shape = Shape || (function(){
-	var collection = [];
-	return {
-		add : function(object){
-			collection.push(object);
 
+	var collection = [];
+	var fullWidth = 0;
+	
+	return {
+		add : function(object, width){
+			collection.push(object);
+			fullWidth += width;
+		},
+		getWidth : function(){
+			return fullWidth;
 		},
 		getAll : function(){
 			return collection;
@@ -13,9 +19,6 @@ var Shape = Shape || (function(){
 		},
 		getCurrentObject : function(){
 			return collection[collection.length - 1]
-<<<<<<< HEAD
-
-=======
 		},
 		reposition : function(){
 			if(this.getLength() > 0) return true
@@ -26,14 +29,14 @@ var Shape = Shape || (function(){
 				object.translation.x -= object.width / 2
 			}
 
-			function pick(object){
-				object.forEach(move)
+			function pick(object,index){
+				object.forEach(move);
 			}
 
 			if(Shape.reposition()){
 				collection.forEach(pick)
 			}
->>>>>>> c2be3a54944032792314171887f1d5ed22bf269a
+
 		}
 
 	}
@@ -41,10 +44,10 @@ var Shape = Shape || (function(){
 
 Shape.create = function(object, mock){
 
-	var _object = object;
+	var _obj = object;
 	var _amount = mock.vertices.length;
 	var _mock = mock
-
+	
 	this.create = (function(){
 		
 		function addToArray(){
@@ -52,9 +55,8 @@ Shape.create = function(object, mock){
 			for (var i = 0; i < arr.length; i++) {
 				arr[i] = create(); 
 				arr[i].width = mock.width
-
 			};
-			return _amount
+			return arr;
 		}
 
 		function create(){
@@ -66,15 +68,17 @@ Shape.create = function(object, mock){
 			return object
 		}
 
-		Shape.add(looper());
+		Shape.add(addToArray(), mock.width);
 		return this;
 
 	})();
 
 	this.moveTo = function(mock){
-		var target = mock.vertices;
+		
+		Shape.setPosition();
+		var target = mock.vertices || _mock.vertices;
 		var object = Shape.getCurrentObject();
-		var addition = Shape.reposition() != true ? 0 : target.width / 2
+		var addition = Shape.getWidth()/2 - mock.width/2;
 
 		var tween = function(object,index){
 			var tween = new TWEEN.Tween({
@@ -82,14 +86,14 @@ Shape.create = function(object, mock){
 				y: object.translation.y
 			})
 			.to({
-				x: target[index].x,
+				x: target[index].x + addition,
 				y: target[index].y
 			}, 2000)
 			.onUpdate(function(){
 				object.translation.set(this.x,this.y)
 			})
 			.easing(TWEEN.Easing.Elastic.Out)
-			.delay(100)
+			.delay(1000)
 			.start();
 		}
 

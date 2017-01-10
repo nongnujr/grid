@@ -18,17 +18,16 @@ var Shape = require('./Shape');
 	var text = [];
 
 	// initiate screen //
-	window.addEventListener('keypress', function(){
-
-		Shape.setPosition();
+	window.addEventListener('keyup', function(){
 
 		// Create Text //
 		var charecter = Text.Create(event.keyCode);
 
 		// duplicate the circle round system //
 		var shape = new Shape
-			.create(Circle, charecter)
+			.create(Circle, charecter) 
 			.moveTo(charecter);
+
 	})
 
 	// Main timeline //
