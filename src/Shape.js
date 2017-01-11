@@ -47,7 +47,8 @@ Shape.create = function(object, mock){
 
 	var _obj = object;
 	var _amount = mock.vertices.length;
-	var _mock = mock
+	var _mock = mock;
+	var _this = this;
 	
 	this.create = (function(){
 
@@ -74,7 +75,7 @@ Shape.create = function(object, mock){
 
 	})();
 
-	this.moveTo = function(mock){
+	this.moveTo = function(mock, text, index, cb){
 
 		Shape.setPosition();
 
@@ -83,7 +84,14 @@ Shape.create = function(object, mock){
 		var addition = Shape.getWidth()/2 - mock.width/2;
 
 		var complete = function(){
-			if(this.index === target.length-1) console.log("complate");
+			if(this.index === target.length-1) {
+				text.splice(0,1);
+				if(text.length === 0){
+					console.log("Complete the loop");
+					return false
+				}
+				return cb(text,index + 1);
+			};
 		};
 
 		var tween = function(object,index){
@@ -107,6 +115,11 @@ Shape.create = function(object, mock){
 		object.forEach(tween);
 		return this;
 
+	}
+
+	this.next = function(text,index,cb){
+		console.log("Create next object")
+		return this
 	}
 
 	this.stop = function(){
