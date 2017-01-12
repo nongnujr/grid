@@ -65,7 +65,7 @@ Shape.create = function(object, mock){
 			var object = _obj({
 				x: Math.random() * window.innerWidth,
 				y: Math.random() * window.innerHeight,
-				radius: 4
+				radius: 1.5
 			})
 			return object
 		}
@@ -75,7 +75,7 @@ Shape.create = function(object, mock){
 
 	})();
 
-	this.moveTo = function(mock, text, index, cb){
+	this.moveTo = function(mock){
 
 		Shape.setPosition();
 
@@ -84,14 +84,7 @@ Shape.create = function(object, mock){
 		var addition = Shape.getWidth()/2 - mock.width/2;
 
 		var complete = function(){
-			if(this.index === target.length-1) {
-				text.splice(0,1);
-				if(text.length === 0){
-					console.log("Complete the loop");
-					return false
-				}
-				return cb(text,index + 1);
-			};
+			if(this.index === target.length-1) console.log("Complete")
 		};
 
 		var tween = function(object,index){
@@ -103,7 +96,7 @@ Shape.create = function(object, mock){
 			.to({
 				x: target[index].x + addition,
 				y: target[index].y
-			}, 1000)
+			}, 0)
 			.onUpdate(function(){
 				object.translation.set(this.x,this.y)
 			})

@@ -17,36 +17,19 @@ var Shape = require('./Shape');
 	var pivotCenter = new Line(two);// add center pivot //
 	var text = [];
 
-	/*var createChar = function(text,index){
-		var charecter = Text.Create(text[0]);
+	var createChar = function(text){
+
+		var charecter = Text.Create(text.keyCode);
 		var shape = new Shape
 			.create(Circle, charecter)
-			.moveTo(charecter,text,index,createChar)
-	}*/
-	var randomDelay = (Math.round(Math.random() * 1E4) % 8000) + 1000;
-	var createChar = function(item,index){
-		console.log("create")
-		setTimeout(function(){
-			if(item.length === 0){
-				console.log("done");
-				return false;
-			}
-			console.log(item)
-			item.splice(0,1);
-			return createChar(item,index + 1);
-		}, randomDelay)
-	}
-	var addToCollection = function(e){
-		text.push(e.keyCode);
-		console.log(text);
-		createChar(text,0)
+			.moveTo(charecter)
+		console.log(charecter.width)
 	}
 
 	// initiate screen //
-	window.addEventListener('keyup', addToCollection)
+	window.addEventListener('keyup', createChar)
 
-	// Main timeline // 
-
+	// Main timeline //
 	two.bind("update", function(){
 
 		TWEEN.update();
